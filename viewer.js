@@ -1,5 +1,10 @@
 const player = document.querySelector("#player video");
 const select = document.querySelector("#move-select select");
+const controlStart = document.querySelector("#control-start");
+const controlBack = document.querySelector("#control-back");
+const controlPlay = document.querySelector("#control-play");
+const controlNext = document.querySelector("#control-next");
+const controlEnd = document.querySelector("#control-end");
 
 let moveset = null;
 
@@ -43,5 +48,40 @@ function populateSelect(){
 }
 
 function setupButtons(){
-  
+  controlStart.addEventListener("click", event => {
+    setPlayerTime(0);
+  });
+  controlBack.addEventListener("click", event => {
+    setPlayerTime(player.currentTime - 0.06);
+  });
+  controlPlay.addEventListener("click", event => {
+    if(player.readyState == 4){
+      if(player.paused){
+        if(player.currentTime >= player.duration - 0.06){
+          player.currentTime = 0;
+        }
+        player.play();
+      }else{
+        player.pause();
+      }
+    }
+  });
+  controlNext.addEventListener("click", event => {
+    setPlayerTime(player.currentTime + 0.06);
+  });
+  controlEnd.addEventListener("click", event => {
+    setPlayerTime(player.duration - 0.06);
+  });
+  player.addEventListener("timeupdate", event => {
+    if(player.currentTime > player.duration - 0.06){
+      player.currentTime = player.duration - 0.06;
+    }
+  })
+
+  function setPlayerTime(t){
+    if(player.readyState == 4){
+      player.pause();
+      player.currentTime = t;
+    }
+  }
 }
