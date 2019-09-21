@@ -4,20 +4,27 @@
   <title>{{ page.title }}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-	<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans|Source+Sans+Pro&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css">
 
   <link href="{{ '/assets/main.css' | relative_url }}" rel="stylesheet">
 </head>
 
 <body>
-  <!-- header? -->
-  
   <div id="wrapper">
-	<div id="content">
+    <header>
+      <h1>Jigglypuff Hitbox Viewer</h1>
+    </header>
 
-    {{ content }}
+    <main>
+      {{ content }}
+    </main>
 
-	</div>
+    <footer>
+      <p style="text-align: right;">
+        <a href="https://twitter.com/drakeirving">@drakeirving</a>
+      </p>
+    </footer>
   </div>
 
 </body>

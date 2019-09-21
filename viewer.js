@@ -77,6 +77,12 @@ function setupButtons(){
       player.currentTime = player.duration - 0.06;
     }
   })
+  player.addEventListener("play", event => {
+    controlPlay.setAttribute("playing", "")
+  })
+  player.addEventListener("pause", event => {
+    controlPlay.removeAttribute("playing")
+  })
 
   function setPlayerTime(t){
     if(player.readyState == 4){

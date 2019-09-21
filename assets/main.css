@@ -1,4 +1,6 @@
+/* ========= */
 /* structure */
+/* ========= */
 
 html{
   height: 100%;
@@ -10,55 +12,89 @@ body{
 }
 #wrapper{
   width: 960px;
-  min-height: 100vh;
+  margin: 0 auto;
+}
+main{
+  width: 891px;
+  margin: 0 auto;
   padding: 36px;
-  margin: 0 auto;
 }
-#content{
-  width: 960px;
-  margin: 0 auto;
-}
-footer{
-  position: absolute;
-  bottom: 0;
 
-  width: 960px;
-  height: 24px;
-  margin: 0 auto;
-  border-top: 1px solid #888;
-  padding: 7px 0 8px;
+section{
+  margin-bottom: 8px;
+  text-align: center;
 }
-.content-left{
-  float: left;
-  width: 70%;
+
+#player{
+  width: 891px;
+  height: 572px;
 }
-.content-right{
-  float: right;
-  width: 30%;
-}
-.clear{
-  clear: both;
-}
-h1{
+
+h1, h4, p{
   margin: 12px 0;
 }
 h3{
   margin-top: 36px;
 }
-h4{
-  margin: 12px 0;
-}
 
+/* ====== */
 /* pretty */
+/* ====== */
 
 body{
-  font-family: 'PT Sans';
-  font-size: 16px;
-  text-align: justify;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 18px;
+  text-align: center;
+  background-image: url("./img/funky-lines.png"); /* Subtle Patterns */
 }
-#wrapper{
-  background-color: #fff;
+
+main{
+  border: 1px dashed #888;
+  border-radius: 24px;
 }
+
+#move-select select{
+  font-family: "Source Sans Pro";
+  font-size: 18px;
+}
+#move-select option{
+  font-family: "Source Sans Pro", "PT Sans", "Fira Sans", sans-serif;
+}
+
+#player{
+  background-color: #3f3f3f;
+  /* #TODO rolling puff time slider */
+	/* background-image: url("./img/puff-icon-sil.png");
+	background-position: center;
+	background-size: 10%;
+	background-repeat: no-repeat; */
+}
+
+#controls button {
+    display: inline-block;
+    border: none;
+    width: 32px;
+    height: 32px;
+    padding: 16px;
+    margin: 8px;
+    filter: invert(1) brightness(0.25);
+}
+#controls button:active {
+  transform: scale(0.95);
+}
+
+#controls button#control-start{ background: url("./img/fast-backward.svg") no-repeat; }
+#controls button#control-back{ background: url("./img/step-backward.svg") no-repeat; }
+#controls button#control-play:not([playing]){ background: url("./img/play.svg") no-repeat; }
+#controls button#control-play[playing]{ background: url("./img/pause.svg") no-repeat; }
+#controls button#control-next{ background: url("./img/step-forward.svg") no-repeat; }
+#controls button#control-end{ background: url("./img/fast-forward.svg") no-repeat; }
+
+h1{
+  font-family: "Permanent Marker";
+  font-size: 40px;
+}
+
 h3{
   border-left: 6px solid #6cf;
   padding-left: 6px;
@@ -73,6 +109,8 @@ a:visited{
 .text-light{
   color: #888;
 }
+
+/* question */
 
 blockquote{
   background: #eee;
