@@ -44,13 +44,21 @@ h3{
 body{
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
-  text-align: center;
+  text-align: justify;
   background-image: url("./img/funky-lines.png"); /* Subtle Patterns */
+}
+
+header{
+  text-align: center;
 }
 
 main{
   border-radius: 24px;
   box-shadow: 0 0 8px rgba(0,0,0,0.9);
+}
+
+footer{
+  text-align: right;
 }
 
 #move-select select{
@@ -90,15 +98,40 @@ main{
 #controls button#control-next{ background: url("./img/step-forward.svg") no-repeat; }
 #controls button#control-end{ background: url("./img/fast-forward.svg") no-repeat; }
 
-h1{
+h1.top{
   font-family: "Permanent Marker";
   font-size: 40px;
+}
+h1.top a{
+  text-decoration: none;
+  color: black;
 }
 
 h3{
   border-left: 6px solid #6cf;
   padding-left: 6px;
 }
+
+h4{
+  /* margin: 8px 0; */
+}
+h4:before {
+  /* content: "# "; */
+}
+
+ul{
+  margin: 8px 0;
+}
+ul ul{
+  padding-left: 1.5rem;
+}
+li{
+  list-style: url("./img/puff-icon-sm.png");
+}
+li li{
+  list-style: square;
+}
+
 a{
   text-decoration: none;
   color: #29d;
@@ -108,6 +141,19 @@ a:visited{
 }
 .text-light{
   color: #888;
+}
+
+span.separator{
+  margin: 0 8px;
+}
+span.separator::before{
+  content: "•";
+  color: #888;
+}
+
+.github-icon{
+  height: 24px;
+  vertical-align: middle;
 }
 
 /* question */
