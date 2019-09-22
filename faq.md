@@ -15,7 +15,7 @@ The straight lines show the knockback angle of the hitbox. Hitboxes with a + sha
 
 > I have a feature request / suggestion!
 
-Check the [changelog]({% link changelog.html %}) page for the to-do list to see if it's already planned.  
+Check the [changelog]({% link changelog.md %}) page for the to-do list to see if it's already planned.  
 If it isn't, you can contact me on [Twitter](https://twitter.com/drakeirving) or in the [Puff Discord](https://smashcords.com/s5jigglypuff).
 
 > Something isn't working! pls fix!
