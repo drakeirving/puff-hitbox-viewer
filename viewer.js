@@ -43,7 +43,19 @@ function populateSelect(){
   });
 
   select.addEventListener("change", event => {
-    player.src = `./video/webm/${moveset.get(event.target.value).niceName}.webm`
+    // player.src = `./video/webm/${moveset.get(event.target.value).niceName}.webm`
+    loadAVideo(`./video/webm/${moveset.get(event.target.value).niceName}.webm`);
+  })
+
+  select.selectedIndex = 0;
+}
+
+function loadAVideo(file){
+  fetch(file)
+  .then(data => data.blob()) // error handling?
+  .then(blob => {
+    let url = URL.createObjectURL(blob);
+    player.src = url;
   })
 }
 
@@ -55,7 +67,7 @@ function setupButtons(){
     setPlayerTime(player.currentTime - 0.06);
   });
   controlPlay.addEventListener("click", event => {
-    if(player.readyState == 4){
+    if(player.readyState == 4 && player.duration >= 0.06){
       if(player.paused){
         if(player.currentTime >= player.duration - 0.06){
           player.currentTime = 0;
