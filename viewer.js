@@ -50,7 +50,7 @@ function populateSelect(){
   select.selectedIndex = 0;
 }
 
-function loadAVideo(file){
+function loadAVideo(file){ // if blob breaks some browsers then whoops
   fetch(file)
   .then(data => data.blob()) // error handling?
   .then(blob => {
