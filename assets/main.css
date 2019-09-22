@@ -108,8 +108,9 @@ h1.top a{
 }
 
 h3{
+  font-size: 24px;
   border-left: 6px solid #6cf;
-  padding-left: 6px;
+  padding-left: 8px;
 }
 
 h4{
@@ -143,6 +144,15 @@ a:visited{
   color: #888;
 }
 
+blockquote{
+  background: #eee;
+  color: #444;
+  padding: 0.75em;
+  margin: 1em;
+}
+blockquote p:first-child{ margin-top: 0; }
+blockquote p:last-child{ margin-bottom: 0; }
+
 span.separator{
   margin: 0 8px;
 }
@@ -158,13 +168,7 @@ span.separator::before{
 
 /* question */
 
-blockquote{
-  background: #eee;
-  color: #444;
-  padding: 1em;
-}
-blockquote p:first-child{ margin-top: 0; }
-blockquote p:last-child{ margin-bottom: 0; }
+
 
 figure{
   margin: 0;

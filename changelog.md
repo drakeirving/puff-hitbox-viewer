@@ -1,33 +1,24 @@
 ---
 layout: top
-title: Jigglypuff Hitbox Viewer
+title: Changelog
 ---
 
-### todo
+### Todo
 
-- thanks
-  - @theEyeDonutz
-  - @struzsmash
-
-- changelog
-  - link at footer
-  - new page
-
-- link to github
-
-- frame slider
-  - rolling puff
+- Frame slider / seeking
   - locked to frames
 
-- frame selector
-  - updates on pause, disabled while playing
+- Frame display / selector
+  - updates live when paused, disabled while playing
 
-- hitbox details display
-  - shows on frames with hitboxes active
+- Hitbox info display
+  - big table showing detailed hitbox info on frames with hitboxes active
   - tooltip for term explanations
 
+<!-- - Become anime catgirl -->
 
-### changelog
+
+### Changelog
 
 #### v1.0.1
 
@@ -35,4 +26,4 @@ Changed video loading, made favicon work, bugfixes
 
 #### v1.0.0
 
-Initial release
+Site first published

@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{ page.title }}</title>
+  <title>Jigglypuff Hitbox Viewer{% if page.title %} - {{ page.title }}{% endif %}</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 	<link href="https://fonts.googleapis.com/css?family=PT+Sans|Source+Sans+Pro&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet" type="text/css">
 
-  <link href="{{ '/assets/main.css' | relative_url }}" rel="stylesheet">
-  <link href="{{ '/favicon.ico' | relative_url }}" rel="icon" type="image/x-icon" />
+  <link href="{% link assets/main.css %}" rel="stylesheet">
+  <link href="{% link favicon.ico %}" rel="icon" type="image/x-icon" />
 </head>
 
 <body>
   <div id="wrapper">
     <header>
-      <h1 class="top"><a href="{{ '/' | relative_url }}">Jigglypuff Hitbox Viewer</a></h1>
+      <h1 class="top"><a href="{% link / %}">Jigglypuff Hitbox Viewer</a></h1>
     </header>
 
     <main>
@@ -23,9 +23,11 @@
 
     <footer>
       <p>
-        <a href="./changelog.html">changelog</a>
+        <a href="{% link FAQ.md %}">FAQ</a>
         <span class="separator"></span>
-        <a href="https://github.com/drakeirving/puff-hitbox-viewer"><img class="github-icon" src="./assets/img/GitHub-Mark-32px.png" /></a>
+        <a href="{% link changelog.html %}">changelog</a>
+        <span class="separator"></span>
+        <a href="https://github.com/drakeirving/puff-hitbox-viewer"><img class="github-icon" src="{% link assets/img/GitHub-Mark-32px.png %}" /></a>
         <span class="separator"></span>
         <a href="https://twitter.com/drakeirving">@drakeirving</a>
       </p>
