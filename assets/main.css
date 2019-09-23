@@ -98,6 +98,12 @@ footer{
 #controls button#control-next{ background: url("./img/step-forward.svg") no-repeat; }
 #controls button#control-end{ background: url("./img/fast-forward.svg") no-repeat; }
 
+#controls input#frame-counter{
+  width: 3em;
+  padding: 2px 4px;
+  font-size: 16px;
+}
+
 h1.top{
   font-family: "Permanent Marker";
   font-size: 40px;

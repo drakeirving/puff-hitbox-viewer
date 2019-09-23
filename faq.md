@@ -18,7 +18,7 @@ The straight lines show the knockback angle of the hitbox. Hitboxes with a + sha
 Check the [changelog]({{ 'changelog.html' | relative_url }}) page for the to-do list to see if it's already planned.  
 If it isn't, you can contact me on [Twitter](https://twitter.com/drakeirving) or in the [Puff Discord](https://smashcords.com/s5jigglypuff).
 
-> Something isn't working! pls fix!
+> Something isn't working / a dumb thing happened! pls fix!
 
 See above contact info. You could also open an issue directly on [GitHub](https://github.com/drakeirving/puff-hitbox-viewer).
 
