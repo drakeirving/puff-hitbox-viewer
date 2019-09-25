@@ -1,3 +1,22 @@
+@font-face {
+  font-family: "Source Sans Pro";
+  src: local("Source Sans Pro"),
+       url("./fonts/Source Sans Pro.woff2") format("woff2"),
+       url("./fonts/SourceSansPro-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "PT Sans";
+  src: local("PT Sans"),
+       url("./fonts/PT Sans.woff2") format("woff2"),
+       url("./fonts/PTSans-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Permanent Marker";
+  src: local("Permanent Marker"),
+  url("./fonts/Permanent Marker.woff2") format("woff2"),
+  url("./fonts/PermanentMarker-Regular.ttf") format("truetype");
+}
+
 /* ========= */
 /* structure */
 /* ========= */
@@ -15,7 +34,7 @@ body{
   margin: 0 auto;
 }
 main{
-  width: 891px;
+  width: 890px;
   margin: 0 auto;
   padding: 36px;
 }
@@ -26,7 +45,7 @@ section{
 }
 
 #player{
-  width: 891px;
+  width: 890px;
   height: 572px;
 }
 

@@ -48,15 +48,14 @@ function populateSelect(){
   });
 
   select.addEventListener("change", event => {
-    // player.src = `./video/webm/${moveset.get(event.target.value).niceName}.webm`
-    loadAVideo(`./video/webm/${moveset.get(event.target.value).niceName}.webm`);
+    loadAVideo(`./video/mp4/${moveset.get(event.target.value).niceName}.mp4`);
   })
 
   select.selectedIndex = 0;
 }
 
-function loadAVideo(file){ // if blob breaks some browsers then whoops
-  fetch(file)
+function loadAVideo(src){ // if blob breaks some browsers then whoops
+  fetch(src)
   .then(data => data.blob()) // error handling?
   .then(blob => {
     let url = URL.createObjectURL(blob);

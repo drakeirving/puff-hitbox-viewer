@@ -1,1 +1,0 @@
-for f in *.gif; do ffmpeg -y -i "$f" -c:v libvpx -crf 4 -b:v 0 -pix_fmt yuv420p -pass 1 -f webm /dev/null && ffmpeg -y -i "$f" -c:v libvpx -crf 4 -b:v 0 -pix_fmt yuv420p -pass 2 "${f%.gif}".webm; done

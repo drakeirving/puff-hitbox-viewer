@@ -23,6 +23,11 @@ title: Changelog
 
 ### Changelog
 
+#### v1.0.4
+
+- Switched clips over to h264 as webm still unsupported on some browsers
+- Self-hosting fonts to minimize fallback
+
 #### v1.0.3
 
 - Added frame counter  
