@@ -66,6 +66,7 @@ function loadAVideo(src){ // if blob breaks some browsers then whoops
 function prepareClip(url){
   player.src = url;
   frameCounter.value = 1;
+  frameCounter.disabled = false;
   player.addEventListener("canplaythrough", event => {
     frameCounter.max = Math.floor((player.duration + EPS) / STEP);
   });
@@ -115,17 +116,24 @@ function setupButtons(){
       player.currentTime = player.duration - STEP + EPS/2;
       player.pause();
     }
-  })
+  });
+
   player.addEventListener("play", event => {
     controlPlay.setAttribute("playing", "");
     frameCounter.disabled = true;
     frameCounter.value = "";
-  })
+  });
   player.addEventListener("pause", event => {
     controlPlay.removeAttribute("playing");
     frameCounter.disabled = false;
     updateFrameCount();
-  })
+  });
+
+  frameCounter.addEventListener("change", event => {
+    if((frameCounter.value - 1) * STEP + EPS/2 < player.duration){
+      setPlayerTime((frameCounter.value - 1) * STEP + EPS/2);
+    }
+  });
 
   function setPlayerTime(t){
     if(player.readyState == 4){

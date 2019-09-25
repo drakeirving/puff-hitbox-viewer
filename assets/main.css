@@ -122,6 +122,9 @@ footer{
   padding: 2px 4px;
   font-size: 16px;
 }
+#controls input#frame-counter:invalid {
+	box-shadow: 0 0 1.5px 1px red;
+}
 
 h1.top{
   font-family: "Permanent Marker";

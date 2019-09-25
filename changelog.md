@@ -8,9 +8,6 @@ title: Changelog
 - Frame slider / seeking
   - locked to frames
 
-- Frame counter
-  - seek to frame
-
 - Hitbox info display
   - big table showing detailed hitbox info on frames with hitboxes active
   - tooltip for term explanations
@@ -26,7 +23,8 @@ title: Changelog
 #### v1.0.4
 
 - Switched clips over to h264 as webm still unsupported on some browsers
-- Self-hosting fonts to minimize fallback
+- Frame counter now seeks to frame
+- Self-hosting fonts to minimize loading times
 
 #### v1.0.3
 
