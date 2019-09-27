@@ -5,9 +5,6 @@ title: Changelog
 
 ### Todo
 
-- Frame slider / seeking
-  - locked to frames
-
 - Hitbox info display
   - big table showing detailed hitbox info on frames with hitboxes active
   - tooltip for term explanations
@@ -19,6 +16,9 @@ title: Changelog
 
 
 ### Changelog
+
+#### v1.0.5
+- Added frame slider
 
 #### v1.0.4
 

@@ -11,3 +11,10 @@ for f in *; do ffmpeg -y -i "$f" -c:v libx264 -vf "crop=in_w-1:in_h:0:0" -crf 17
 ```
 
 you want gif output dimensions to be divisible by 2 for yuv420p conversion, `-vf "crop=in_w-1:in_h:0:0"` cropped width
+
+
+bair is two frames faster than the animation due to framespeedmul so specific frames were cut
+
+```
+ffmpeg -y -i Back\ Air.gif -c:v libx264 -vf "crop=in_w-1:in_h:0:0, select='1-eq(n\,4)-eq(n\,6)',setpts=N/FRAME_RATE/TB" -crf 17 -preset veryslow -pix_fmt yuv420p Back\ Air.mp4
+```

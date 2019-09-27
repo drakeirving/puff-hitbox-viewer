@@ -97,6 +97,58 @@ footer{
 	background-repeat: no-repeat; */
 }
 
+#controls input#frame-slider{
+  width: 95%;
+  height: 18px;
+  background: transparent;
+  -webkit-appearance: none;
+  outline: none;
+}
+#controls input#frame-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  border-width: 0;
+  background: #404040;
+}
+#controls input#frame-slider::-moz-range-track {
+  height: 1px;
+  background: #d6d6d6;
+  border: 1.5px solid #d6d6d6;
+}
+#controls input#frame-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  border-width: 0;
+  background: #404040;
+  margin-top: -8px;
+}
+#controls input#frame-slider::-webkit-slider-runnable-track {
+  height: 1px;
+  background: #d6d6d6;
+  border: 1.5px solid #d6d6d6;
+}
+#controls input#frame-slider::-ms-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  border-width: 0;
+  background: #404040;
+  margin-top: 0px;
+}
+#controls input#frame-slider::-ms-track {
+  height: 1px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+#controls input#frame-slider::-ms-fill-lower, #controls input#frame-slider::-ms-fill-upper {
+  background: #d6d6d6;
+  border: 1.5px solid #d6d6d6;
+}
+
 #controls button {
     display: inline-block;
     border: none;
@@ -105,11 +157,11 @@ footer{
     padding: 16px;
     margin: 8px;
     filter: invert(1) brightness(0.25);
+    outline: none;
 }
 #controls button:active {
   transform: scale(0.95);
 }
-
 #controls button#control-start{ background: url("./img/fast-backward.svg") no-repeat; }
 #controls button#control-back{ background: url("./img/step-backward.svg") no-repeat; }
 #controls button#control-play:not([playing]){ background: url("./img/play.svg") no-repeat; }

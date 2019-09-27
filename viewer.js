@@ -6,6 +6,7 @@ const controlPlay = document.querySelector("#control-play");
 const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
 const frameCounter = document.querySelector("#frame-counter");
+const frameSlider = document.querySelector("#frame-slider");
 
 const STEP = 0.06;
 const RATE = 1/STEP;
@@ -67,8 +68,11 @@ function prepareClip(url){
   player.src = url;
   frameCounter.value = 1;
   frameCounter.disabled = false;
+  frameSlider.value = 1;
   player.addEventListener("canplaythrough", event => {
-    frameCounter.max = Math.floor((player.duration + EPS) / STEP);
+    let maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
+    frameCounter.max = maxFrame;
+    frameSlider.max = maxFrame;
   });
 }
 
@@ -135,6 +139,17 @@ function setupButtons(){
     }
   });
 
+  let slideThrottle = false;
+  frameSlider.addEventListener("input", event => {
+    if(!slideThrottle && (frameSlider.valueAsNumber - 1) * STEP + EPS/2 < player.duration){
+      setPlayerTime((frameSlider.valueAsNumber - 1) * STEP + EPS/2);
+      slideThrottle = true;
+    }else{
+      console.log("hi");
+    }
+  });
+  setInterval(() => slideThrottle = false, 25);
+
   function setPlayerTime(t){
     if(player.readyState == 4){
       player.pause();
@@ -146,5 +161,6 @@ function setupButtons(){
   function updateFrameCount(){
     let frame = Math.floor((player.currentTime + EPS) / STEP) + 1;
     frameCounter.value = frame;
+    frameSlider.value = frame;
   }
 }
