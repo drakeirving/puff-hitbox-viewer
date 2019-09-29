@@ -6,7 +6,6 @@ title: Changelog
 ### Todo
 
 - Hitbox info display
-  - big table showing detailed hitbox info on frames with hitboxes active
   - tooltip for term explanations
 
 - Document workflow on wiki
@@ -16,6 +15,9 @@ title: Changelog
 
 
 ### Changelog
+
+#### v1.0.6
+- Implemented hitbox detail table
 
 #### v1.0.5
 - Added frame slider

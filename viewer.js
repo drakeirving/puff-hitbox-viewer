@@ -7,6 +7,7 @@ const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
 const frameCounter = document.querySelector("#frame-counter");
 const frameSlider = document.querySelector("#frame-slider");
+let frameDataTable = document.querySelector("#frame-data");
 
 const STEP = 0.06;
 const RATE = 1/STEP;
@@ -14,6 +15,8 @@ const EPS = 0.00001;
 let endFrame = 1;
 
 let moveset = null;
+let currentMove = null;
+let currentFrame = 1;
 
 function getData(file){
   return fetch(file)
@@ -49,7 +52,8 @@ function populateSelect(){
   });
 
   select.addEventListener("change", event => {
-    loadAVideo(`./video/mp4/${moveset.get(event.target.value).niceName}.mp4`);
+    currentMove = moveset.get(event.target.value);
+    loadAVideo(`./video/mp4/${currentMove.niceName}.mp4`);
   })
 
   select.selectedIndex = 0;
@@ -66,6 +70,7 @@ function loadAVideo(src){ // if blob breaks some browsers then whoops
 
 function prepareClip(url){
   player.src = url;
+  currentFrame = 1;
   frameCounter.value = 1;
   frameCounter.disabled = false;
   frameSlider.value = 1;
@@ -74,6 +79,7 @@ function prepareClip(url){
     frameCounter.max = maxFrame;
     frameSlider.max = maxFrame;
   });
+  updateTable();
 }
 
 function setupButtons(){
@@ -130,7 +136,7 @@ function setupButtons(){
   player.addEventListener("pause", event => {
     controlPlay.removeAttribute("playing");
     frameCounter.disabled = false;
-    updateFrameCount();
+    updateFrame();
   });
 
   frameCounter.addEventListener("change", event => {
@@ -144,8 +150,6 @@ function setupButtons(){
     if(!slideThrottle && (frameSlider.valueAsNumber - 1) * STEP + EPS/2 < player.duration){
       setPlayerTime((frameSlider.valueAsNumber - 1) * STEP + EPS/2);
       slideThrottle = true;
-    }else{
-      console.log("hi");
     }
   });
   setInterval(() => slideThrottle = false, 25);
@@ -154,13 +158,68 @@ function setupButtons(){
     if(player.readyState == 4){
       player.pause();
       player.currentTime = t;
-      updateFrameCount();
+      updateFrame();
     }
   }
 
-  function updateFrameCount(){
+  function updateFrame(){
     let frame = Math.floor((player.currentTime + EPS) / STEP) + 1;
+    currentFrame = frame;
     frameCounter.value = frame;
     frameSlider.value = frame;
+    updateTable();
   }
 }
+
+function removeTable(){
+  while(frameDataTable.hasChildNodes()){ frameDataTable.removeChild(frameDataTable.firstChild); }
+}
+function updateTable(){
+  removeTable();
+  generateTable(getActiveHitboxes());
+}
+
+import ParamList from "./paramlist.js";
+
+function getActiveHitboxes(){
+  return currentMove.hitboxes.filter(h => (currentFrame >= h.get("_frameStart") && currentFrame < h.get("_frameEnd")));
+}
+
+function generateTable(hitboxes){
+  if(hitboxes.length == 0){ return; }
+
+  let table = document.createElement("table");
+  let params = [];
+  // if param is in any hitboxes and is not filtered out, add to header list
+  ParamList.forEach(p => {
+    for(let h of hitboxes){
+      if(h.has(p.name) && p.filter(h.get(p.name))){
+        params.push(p);
+        break;
+      }
+    }
+  })
+  // create row per hitbox
+  for(let h of hitboxes){
+    let row = table.insertRow();
+    for(let p of params){
+      let td = row.insertCell();
+      if(h.has(p.name)){
+        td.append(p.transform(h.get(p.name)));
+      }
+    }
+  }
+  // create header
+  let thead = table.createTHead();
+  let row = thead.insertRow();
+  for(let p of params){
+    let th = document.createElement("th");
+    th.append(p.niceName);
+    row.append(th);
+  }
+  // add to page
+  frameDataTable.append(table);
+}
+
+
+// for hitbox, for header, add val if header exists, else add empty
