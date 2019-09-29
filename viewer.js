@@ -7,7 +7,7 @@ const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
 const frameCounter = document.querySelector("#frame-counter");
 const frameSlider = document.querySelector("#frame-slider");
-let frameDataTable = document.querySelector("#frame-data");
+let hitboxDetails = document.querySelector("#hitbox-details");
 
 const STEP = 0.06;
 const RATE = 1/STEP;
@@ -93,7 +93,6 @@ function setupButtons(){
   });
 
   controlBack.addEventListener("click", event => {
-    // setPlayerTime(player.currentTime - STEP);
     setPlayerTime((Math.floor((player.currentTime + EPS) / STEP) - 1) * STEP + EPS/2);
   });
 
@@ -112,7 +111,6 @@ function setupButtons(){
 
   controlNext.addEventListener("click", event => {
     if(player.currentTime < player.duration - STEP){
-      // setPlayerTime(player.currentTime + STEP);
       setPlayerTime((Math.floor((player.currentTime + EPS) / STEP) + 1) * STEP + EPS/2);
     }
   });
@@ -171,18 +169,19 @@ function setupButtons(){
   }
 }
 
-function removeTable(){
-  while(frameDataTable.hasChildNodes()){ frameDataTable.removeChild(frameDataTable.firstChild); }
+function clearTable(){
+  while(hitboxDetails.hasChildNodes()){ hitboxDetails.removeChild(hitboxDetails.firstChild); }
 }
+
 function updateTable(){
-  removeTable();
+  clearTable();
   generateTable(getActiveHitboxes());
 }
 
 import ParamList from "./paramlist.js";
 
 function getActiveHitboxes(){
-  return currentMove.hitboxes.filter(h => (currentFrame >= h.get("_frameStart") && currentFrame < h.get("_frameEnd")));
+  return currentMove.hitboxes.filter(h => (currentFrame >= h._frameStart && currentFrame < h._frameEnd));
 }
 
 function generateTable(hitboxes){
@@ -193,7 +192,7 @@ function generateTable(hitboxes){
   // if param is in any hitboxes and is not filtered out, add to header list
   ParamList.forEach(p => {
     for(let h of hitboxes){
-      if(h.has(p.name) && p.filter(h.get(p.name))){
+      if(p.name in h && p.filter(h[p.name])){
         params.push(p);
         break;
       }
@@ -204,8 +203,8 @@ function generateTable(hitboxes){
     let row = table.insertRow();
     for(let p of params){
       let td = row.insertCell();
-      if(h.has(p.name)){
-        td.append(p.transform(h.get(p.name)));
+      if(p.name in h){
+        td.append(p.transform(h[p.name]));
       }
     }
   }
@@ -218,7 +217,7 @@ function generateTable(hitboxes){
     row.append(th);
   }
   // add to page
-  frameDataTable.append(table);
+  hitboxDetails.append(table);
 }
 
 

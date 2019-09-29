@@ -5,6 +5,11 @@ title: Changelog
 
 ### Todo
 
+- Add other dair hitboxes
+- Redo json
+- Allow move notes, hitbox notes
+- Custom colors?
+
 - Hitbox info display
   - tooltip for term explanations
 
