@@ -5,10 +5,14 @@ title: Changelog
 
 ### Todo
 
-- Add other dair hitboxes
-- Redo json
+{% if jekyll.environment != "production" %}
+
+<!-- - Add other dair hitboxes -->
+<!-- - Redo json -->
 - Allow move notes, hitbox notes
 - Custom colors?
+
+{% endif %}
 
 - Hitbox info display
   - tooltip for term explanations
@@ -22,7 +26,7 @@ title: Changelog
 ### Changelog
 
 #### v1.0.6
-- Implemented hitbox detail table
+- Implemented hitbox detail table, minor adjustments
 
 #### v1.0.5
 - Added frame slider

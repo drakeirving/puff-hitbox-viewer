@@ -20,7 +20,7 @@ function addCurrentMove(){
     document.querySelector(".script-select select:last-child").selectedOptions[0].textContent,
     getHitboxes()
   )
-  // note still have to add extra stuff e.g. hitbox frame info and move nicename
+  // note still have to add extra stuff e.g. hitbox frame info and move nicename, notes
 }
 
 // json manip
