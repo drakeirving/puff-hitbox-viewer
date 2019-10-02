@@ -6,12 +6,13 @@ title: Changelog
 ### Todo
 
 {% if jekyll.environment != "production" %}
+#### Private
 
-<!-- - Add other dair hitboxes -->
-<!-- - Redo json -->
-- Allow move notes, hitbox notes
-- Custom colors?
+- allow move notes, hitbox notes
+- custom colors
+- show active frames, faf?
 
+#### Public
 {% endif %}
 
 - Hitbox info display
@@ -19,9 +20,6 @@ title: Changelog
 
 - Document workflow on wiki
   - prepare for kludge
-
-<!-- - Become anime mousegirl -->
-
 
 ### Changelog
 

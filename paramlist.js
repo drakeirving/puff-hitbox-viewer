@@ -50,7 +50,7 @@ const ParamList = (() => {
       "COLLISION_SITUATION_MASK_G": "Ground",
       "COLLISION_SITUATION_MASK_A": "Air"
     })[x]),
-    Param("Notes")
+    Param("_notes", pass, self, "Notes")
   ];
 
   return list;

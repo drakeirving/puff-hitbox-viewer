@@ -9,6 +9,7 @@ function getHitboxes(){
         [...s.matchAll(/([\w\/]+)=([\w\._]+)/g)]
         .map(x => [x[1], x[2]])
       )
+      // add grab
     )
     // update
 }
@@ -21,6 +22,18 @@ function addCurrentMove(){
     getHitboxes()
   )
   // note still have to add extra stuff e.g. hitbox frame info and move nicename, notes
+}
+
+function setHitboxColor(move, hitbox_id, color){
+  moveset.get(move).hitboxes[hitbox_id]._color = color;
+}
+
+function setHitboxNotes(move, hitbox_id, notes){
+  moveset.get(move).hitboxes[hitbox_id]._notes = notes;
+}
+
+function setMoveNotes(move, notes){
+  moveset.get(move)._notes = notes;
 }
 
 // json manip
