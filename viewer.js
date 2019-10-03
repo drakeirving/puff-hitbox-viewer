@@ -18,6 +18,10 @@ let moveset = null;
 let currentMove = null;
 let currentFrame = 1;
 
+/*--------------------------------
+         LOADING / SETUP
+--------------------------------*/
+
 function getData(file){
   return fetch(file)
     .then(data => data.text())
@@ -74,19 +78,47 @@ function prepareClip(url){
   frameCounter.value = 1;
   frameCounter.disabled = false;
   frameSlider.value = 1;
-  player.addEventListener("canplaythrough", event => {
-    let maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
-    frameCounter.max = maxFrame;
-    frameSlider.max = maxFrame;
-  });
+
   updateTable();
 }
 
+/*--------------------------------
+    CONTROLS / EVENT HANDLING
+--------------------------------*/
+// TODO: explain the epsilon bullshit
+
 function setupButtons(){
 
-  /*-------------
-  TODO: explain the epsilon bullshit
-  ---------------*/
+  player.addEventListener("loadedmetadata", event => {
+    let maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
+    frameCounter.max = maxFrame;
+    frameSlider.max = maxFrame;
+
+    (function setupActiveFrames(){
+      let a = new Uint8Array(maxFrame);
+      currentMove.hitboxes.forEach((h)=>{
+        for(let i = h._frameStart; i <= h._frameEnd-1; i++){ // -1 frameEnd is exclusive
+          a[i-1] = 1; // -1 frame count to array index
+        }
+      })
+
+      let b = [];
+      a.forEach((x,i) => {
+        if(b.length % 2 == 0 && x == 1) { b.push(i+1); }   // +1 index to frame
+        else if(b.length % 2 == 1 && x == 0){ b.push(i); } // +1 index to frame, -1 frameEnd is exclusive
+      })
+      if(b.length % 2 == 1){ b.push(maxFrame); } // if last frame is still active somehow
+
+      let s = "Active frames: ";
+      for(let i = 0; i < b.length; i+=2){
+        if(i >= 2){ s += ", "; }
+        s += b[i];
+        if(b[i] != b[i+1]){ s += "-" + b[i+1]; }
+      }
+
+      console.log(s);
+    })();
+  });
 
   controlStart.addEventListener("click", event => {
     setPlayerTime(0);
@@ -169,6 +201,10 @@ function setupButtons(){
   }
 }
 
+/*--------------------------------
+      HITBOX DETAILS TABLE
+--------------------------------*/
+
 function clearTable(){
   while(hitboxDetails.hasChildNodes()){ hitboxDetails.removeChild(hitboxDetails.firstChild); }
 }
@@ -194,6 +230,7 @@ function generateTable(hitboxes){
     for(let h of hitboxes){
       if(p.name in h && p.filter(h[p.name])){
         params.push(p);
+        // TODO: add css [data-tooltip] for :hover -> underline, click -> toggle
         break;
       }
     }
@@ -201,11 +238,19 @@ function generateTable(hitboxes){
   // create row per hitbox
   for(let h of hitboxes){
     let row = table.insertRow();
+    // cell per param
     for(let p of params){
       let td = row.insertCell();
       if(p.name in h){
         td.append(p.transform(h[p.name]));
       }
+    }
+    if("_type" in h){
+      if(h._type == "Grab"){ row.classList += "type-grab"; }
+    }
+    if("_color" in h){
+      row.style.background = h._color + "20"; // if hex
+      row.querySelector(".hitbox-color-icon").style.background = h._color;
     }
   }
   // create header
@@ -219,6 +264,3 @@ function generateTable(hitboxes){
   // add to page
   hitboxDetails.append(table);
 }
-
-
-// for hitbox, for header, add val if header exists, else add empty

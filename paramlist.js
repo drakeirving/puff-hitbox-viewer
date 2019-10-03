@@ -16,9 +16,13 @@ const ParamList = (() => {
     Param("ID", pass, x => {
       let e = document.createElement("span");
       e.classList += "hitbox-id";
-      e.textContent = x;
+      let icon = document.createElement("span");
+      icon.classList += "hitbox-color-icon";
+      e.append(icon);
+      e.append(x);
       return e;
     }),
+    Param("_type", pass, self, "Type"),
     Param("Damage"),
     Param("ShieldDamage", not(0), self, "ShieldDmg"),
     Param("Angle", pass, x => `${x}°`),

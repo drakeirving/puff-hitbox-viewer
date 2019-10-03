@@ -5,13 +5,23 @@ title: FAQ
 
 ### FAQ
 
-> What do the different color hitboxes mean?
+> What do the different colors on the hitboxes mean?
 
-The different colors represent different hitbox IDs. Eventually the app will have an explanation in it, and without knowing what each hitbox does it doesn't matter anyways, but for the time being just consider that hitboxes are checked in ascending order of Red (ID 0) → Purple (ID 1) → White (ID 2) → Yellow (ID 3); so if a Red and Purple hitbox both connect with something, the Red hitbox is the one that actually hits.
+The different colors represent different hitbox IDs. When checking for collision, hitboxes are checked in ascending order, so if a Red (ID 0) and Purple (ID 1) hitbox both connect with something on the same frame, the Red hitbox is the one that actually hits.
 
 > What are the lines on the hitboxes?
 
 The straight lines show the knockback angle of the hitbox. Hitboxes with a + shape denote the Sakurai angle, which you can read about [here](https://www.ssbwiki.com/Sakurai_angle).
+
+> What does [X] hitbox parameter/value mean?
+
+For now you can either wait until tooltips are implemented or you can go do a bit of research.
+
+> Are you going to add other characters?
+
+At the very least I've been planning to make this app moderately extensible, but the process of putting together all the relevant data and clips and setting it all up correctly is largely a manual process (even though scripts are involved). Implementing any new exceptions that arise will likely also make it not so straightforward.
+
+I'm aiming to provide some tools and document the workflow that would be needed to get other characters added, and people willing to contribute are welcome to contact me and/or submit pull requests.
 
 > I have a feature request / suggestion!
 

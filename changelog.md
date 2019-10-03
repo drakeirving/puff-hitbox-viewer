@@ -8,8 +8,7 @@ title: Changelog
 {% if jekyll.environment != "production" %}
 #### Private
 
-- allow move notes, hitbox notes
-- custom colors
+- allow move notes
 - show active frames, faf?
 
 #### Public
@@ -22,6 +21,18 @@ title: Changelog
   - prepare for kludge
 
 ### Changelog
+
+{% if jekyll.environment != "production" %}
+#### Private
+
+{% endif %}
+
+#### v1.0.7
+- Added Grab type and color mapping for grabs
+- Adjusted colors to match CrossMod output
+- Added hitbox parameter for custom colors
+- Added hitbox parameter for additional move notes
+- Fixed some bad things
 
 #### v1.0.6
 - Implemented hitbox detail table, minor adjustments

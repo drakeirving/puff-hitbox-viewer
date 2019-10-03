@@ -1,3 +1,8 @@
+---
+---
+@use "sass:list";
+@use "sass:map";
+
 @font-face {
   font-family: "Source Sans Pro";
   src: local("Source Sans Pro"),
@@ -90,11 +95,6 @@ footer{
 
 #player{
   background-color: #3f3f3f;
-  /* #TODO rolling puff time slider */
-	/* background-image: url("./img/puff-icon-sil.png");
-	background-position: center;
-	background-size: 10%;
-	background-repeat: no-repeat; */
 }
 
 #controls input#frame-slider{
@@ -246,7 +246,6 @@ span.separator::before{
   vertical-align: middle;
 }
 
-/* question */
 
 
 
@@ -284,16 +283,6 @@ thead tr {
   background-color: rgba(128,128,128,0.1);
 }
 
-tbody tr:nth-child(1){ background: #ff000020; }
-tbody tr:nth-child(2){ background: #c759ff20; }
-tbody tr:nth-child(3){ background: #ffc7c720; }
-tbody tr:nth-child(4){ background: #c7b40020; }
-tbody tr:nth-child(5){ background: #ff780020; }
-tbody tr:nth-child(6){ background: #00ffd620; }
-tbody tr:nth-child(7){ background: #c700ff20; }
-tbody tr:nth-child(8){ background: #60498620; }
-tbody tr:nth-child(9){ background: #99999920; }
-
 td {
   border: 1px solid #aaa;
   color: #444;
@@ -310,23 +299,35 @@ th {
 .hitbox-id {
   display: flex;
   align-items: center;
-}
-.hitbox-id::before {
-  content: "";
-  display: inline-block;
-  width: 0.8em;
-  height: 0.8em;
-  border-radius: 50%;
-  margin-right: 0.4em;
-  border: 1px solid rgba(0,0,0,0.5);
+
+  .hitbox-color-icon {
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    margin-right: 0.4em;
+    border: 1px solid rgba(0,0,0,0.5);
+  }
 }
 
-tr:nth-of-type(1) .hitbox-id::before{ background: #ff0000; }
-tr:nth-of-type(2) .hitbox-id::before{ background: #c759ff; }
-tr:nth-of-type(3) .hitbox-id::before{ background: #ffc7c7; }
-tr:nth-of-type(4) .hitbox-id::before{ background: #c7b400; }
-tr:nth-of-type(5) .hitbox-id::before{ background: #ff7800; }
-tr:nth-of-type(6) .hitbox-id::before{ background: #00ffd6; }
-tr:nth-of-type(7) .hitbox-id::before{ background: #c700ff; }
-tr:nth-of-type(8) .hitbox-id::before{ background: #604986; }
-tr:nth-of-type(9) .hitbox-id::before{ background: #999999; }
+$hitboxColors: (
+  "normal": [ #ff0000, #c759ff, #ffc7c7, #c7b400, #ff7800, #00ffd6, #c700ff, #604986, #999999 ],
+  "grab":   [ #999999, #ff0000, #c759ff, #ffc7c7, #c7b400, #ff7800, #00ffd6, #c700ff, #604986 ],
+);
+
+@for $i from 1 through 9 {
+  // row colors
+  tbody tr:nth-child(#{$i}){
+    background: change-color(nth(map-get($hitboxColors, "normal"), $i), $alpha: 0.125);
+  }
+  tbody tr.type-grab:nth-child(#{$i}){
+    background: change-color(nth(map-get($hitboxColors, "grab"), $i), $alpha: 0.125);
+  }
+
+  // id color markers
+  tr:nth-of-type(#{$i}) .hitbox-color-icon{
+    background: nth(map-get($hitboxColors, "normal"), $i);
+  }
+  tr.type-grab:nth-of-type(#{$i}) .hitbox-color-icon{
+    background: nth(map-get($hitboxColors, "grab"), $i);
+  }
+}
