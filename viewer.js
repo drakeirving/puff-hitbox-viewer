@@ -106,6 +106,7 @@ function setupButtons(){
   function updateActiveFrames(){
     clearActiveFrames();
 
+    // active frames
     let a = new Uint8Array(maxFrame);
     currentMove.hitboxes.forEach((h)=>{
       for(let i = h._frameStart; i <= h._frameEnd-1; i++){ // -1 frameEnd is exclusive
@@ -121,13 +122,25 @@ function setupButtons(){
     if(b.length % 2 == 1){ b.push(maxFrame+1 - b[b.length-1]); } // if last frame is still active somehow
 
     for(let i = 0; i < b.length; i+=2){
-      createTick(b[i], b[i+1]);
-      console.log(b[i], b[i+1]);
+      createTick(b[i], b[i+1], "red");
     }
 
-    function createTick(start, duration, color="red"){
+    // faf
+    if("faf" in currentMove){
+      createTick(currentMove.faf, 1);
+    }
+
+    // autocancel
+    if("autocancel" in currentMove){
+      createTick(currentMove.autocancel, 1, "green");
+    }
+
+    function createTick(start, duration, ...classList){
       let t = document.createElement("span");
-      t.classList += "tick-" + color;
+      t.classList.add("tick");
+      classList.forEach(c => {
+        t.classList.add("tick-" + c);
+      });
       let l = (maxFrame > 1) ? (start - 1) / (maxFrame - 1) : 0;
       let w = (maxFrame > 1) ? (duration - 1) / (maxFrame - 1) : 1;
       t.style.setProperty("left", `calc((100% - 16px) * ${l})`);

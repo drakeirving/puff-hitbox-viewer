@@ -111,19 +111,31 @@ footer{
     width: 100%;
     pointer-events: none;
 
-    @mixin tick {
+    .tick {
       display: inline-block;
       position: absolute;
       top: 0px;
       height: 16px;
       background: #80808080;
       border-radius: 16px;
+
+      &-red {
+        @extend .tick;
+        background-color: #ff000080;
+      }
+      &-green {
+        @extend .tick;
+        background-color: #00ff0080;
+      }
+      &-blue {
+        @extend .tick;
+        background-color: #0000ff80;
+      }
+      &-small {
+        transform: scale(0.75);
+      }
     }
 
-    .tick-red {
-      @include tick;
-      background-color: #ff000080;
-    }
   }
 
   .range-track-bg {
