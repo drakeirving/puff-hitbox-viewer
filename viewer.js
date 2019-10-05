@@ -7,6 +7,7 @@ const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
 const frameCounter = document.querySelector("#frame-counter");
 const frameSlider = document.querySelector("#frame-slider");
+const tickContainer = document.querySelector("#tick-container");
 let hitboxDetails = document.querySelector("#hitbox-details");
 
 const STEP = 0.06;
@@ -17,6 +18,7 @@ let endFrame = 1;
 let moveset = null;
 let currentMove = null;
 let currentFrame = 1;
+let maxFrame = 1;
 
 /*--------------------------------
          LOADING / SETUP
@@ -90,35 +92,49 @@ function prepareClip(url){
 function setupButtons(){
 
   player.addEventListener("loadedmetadata", event => {
-    let maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
+    maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
     frameCounter.max = maxFrame;
     frameSlider.max = maxFrame;
 
-    (function setupActiveFrames(){
-      let a = new Uint8Array(maxFrame);
-      currentMove.hitboxes.forEach((h)=>{
-        for(let i = h._frameStart; i <= h._frameEnd-1; i++){ // -1 frameEnd is exclusive
-          a[i-1] = 1; // -1 frame count to array index
-        }
-      })
-
-      let b = [];
-      a.forEach((x,i) => {
-        if(b.length % 2 == 0 && x == 1) { b.push(i+1); }   // +1 index to frame
-        else if(b.length % 2 == 1 && x == 0){ b.push(i); } // +1 index to frame, -1 frameEnd is exclusive
-      })
-      if(b.length % 2 == 1){ b.push(maxFrame); } // if last frame is still active somehow
-
-      let s = "Active frames: ";
-      for(let i = 0; i < b.length; i+=2){
-        if(i >= 2){ s += ", "; }
-        s += b[i];
-        if(b[i] != b[i+1]){ s += "-" + b[i+1]; }
-      }
-
-      console.log(s);
-    })();
+    updateActiveFrames();
   });
+
+  function clearActiveFrames(){
+    while(tickContainer.hasChildNodes()){ tickContainer.removeChild(tickContainer.firstChild); }
+  }
+
+  function updateActiveFrames(){
+    clearActiveFrames();
+
+    let a = new Uint8Array(maxFrame);
+    currentMove.hitboxes.forEach((h)=>{
+      for(let i = h._frameStart; i <= h._frameEnd-1; i++){ // -1 frameEnd is exclusive
+        a[i-1] = 1; // -1 frame count to array index
+      }
+    })
+
+    let b = []; // b = [start, duration, start, duration, ...]
+    a.forEach((x,i) => {
+      if(b.length % 2 == 0 && x == 1) { b.push(i+1); }   // +1 index to frame
+      else if(b.length % 2 == 1 && x == 0){ b.push(i+1 - b[b.length-1]); } // +1 index to frame
+    })
+    if(b.length % 2 == 1){ b.push(maxFrame+1 - b[b.length-1]); } // if last frame is still active somehow
+
+    for(let i = 0; i < b.length; i+=2){
+      createTick(b[i], b[i+1]);
+      console.log(b[i], b[i+1]);
+    }
+
+    function createTick(start, duration){
+      let t = document.createElement("span");
+      t.classList += "tick";
+      let l = (maxFrame > 1) ? (start - 1) / (maxFrame - 1) : 0;
+      let w = (maxFrame > 1) ? (duration - 1) / (maxFrame - 1) : 1;
+      t.style.setProperty("left", `calc((100% - 16px) * ${l})`);
+      t.style.setProperty("width", `calc((100% - 16px) * ${w} + 16px)`);
+      tickContainer.append(t);
+    }
+  }
 
   controlStart.addEventListener("click", event => {
     setPlayerTime(0);

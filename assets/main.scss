@@ -97,12 +97,51 @@ footer{
   background-color: #3f3f3f;
 }
 
-#controls input#frame-slider{
+#controls #slider-container {
+  position: relative;
   width: 95%;
+  margin: 0 auto;
+}
+
+#controls #tick-container {
+  position: absolute;
+  top: 1px;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#controls #tick-container .tick{
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  // left: calc((100% - 16px) * (var(--range-start) - 1) / var(--range-dur));
+  // width: calc((100% - 16px) * (var(--range-duration) - 1) / 17 + 16px);
+  height: 16px;
+  background: #ff000080;
+  border-radius: 16px;
+}
+
+#controls .range-track-bg {
+  position: absolute;
+  top: 8px;
+  width: 100%;
+  height: 3px;
+  background: #d6d6d6;
+  z-index: -1;
+}
+
+#controls input#frame-slider {
+  position: relative;
+  left: 0;
+  top: 0;
+  width: 100%;
   height: 18px;
+  margin: 0;
   background: transparent;
   -webkit-appearance: none;
   outline: none;
+  // z-index: 1;
 }
 #controls input#frame-slider::-moz-range-thumb {
   width: 16px;
@@ -112,9 +151,9 @@ footer{
   background: #404040;
 }
 #controls input#frame-slider::-moz-range-track {
-  height: 1px;
-  background: #d6d6d6;
-  border: 1.5px solid #d6d6d6;
+  height: 3px;
+  background: transparent; //#d6d6d6;
+  // border: 1.5px solid #d6d6d6;
 }
 #controls input#frame-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -191,13 +230,6 @@ h3{
   font-size: 24px;
   border-left: 6px solid #6cf;
   padding-left: 8px;
-}
-
-h4{
-  /* margin: 8px 0; */
-}
-h4:before {
-  /* content: "# "; */
 }
 
 ul{
