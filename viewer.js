@@ -125,9 +125,9 @@ function setupButtons(){
       console.log(b[i], b[i+1]);
     }
 
-    function createTick(start, duration){
+    function createTick(start, duration, color="red"){
       let t = document.createElement("span");
-      t.classList += "tick";
+      t.classList += "tick-" + color;
       let l = (maxFrame > 1) ? (start - 1) / (maxFrame - 1) : 0;
       let w = (maxFrame > 1) ? (duration - 1) / (maxFrame - 1) : 1;
       t.style.setProperty("left", `calc((100% - 16px) * ${l})`);
