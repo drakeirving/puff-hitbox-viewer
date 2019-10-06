@@ -275,7 +275,7 @@ function generateTable(hitboxes){
       }
     }
     if("_type" in h){
-      if(h._type == "Grab"){ row.classList += "type-grab"; }
+      if(h._type == "Grab"){ row.classList.add("type-grab"); }
     }
     if("_color" in h){
       row.style.background = h._color + "20"; // if hex

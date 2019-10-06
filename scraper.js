@@ -1,0 +1,104 @@
+// Scraping from Ruben's script viewer
+
+class Moveset extends Map {
+	constructor(){ super(); }
+
+  addCurrentMove(niceName){
+    return this.set(
+      document.querySelector(".script-select select:last-child").selectedOptions[0].textContent,
+      this.scrapeMove(niceName)
+    );
+  }
+
+  scrapeMove(niceName){
+    let move = {};
+    let hitboxes = [];
+    let f = 1;
+    let script = [...document.querySelectorAll(".script-cmd")].map(e=>e.parentNode.textContent)
+    for(let s of script){
+      let frame = s.match(/^frame\(Frame=(\d+)\)/);
+      if(frame !== null && frame.length==2){ f = Number(frame[1]); continue; }
+      let wait = s.match(/^wait\(Frames=(\d+)\)/) || s.match(/^wait\(0, (\d+)\)/) ;
+      if(wait !== null && wait.length==2){ f += Number(wait[1]); continue; }
+      if(/^\s*ATTACK\(/.test(s)){ let h = readHitbox(s); h._frameStart = f; hitboxes.forEach((h2,i)=>{if(!("_frameEnd" in h2) && h.ID == h2.ID){h2._frameEnd = f;}}); hitboxes.push(h); continue; }
+      if(/^\s*CATCH\(/.test(s)){ let h = readHitbox(s); h._frameStart = f; hitboxes.forEach((h2,i)=>{if(!("_frameEnd" in h2) && h.ID == h2.ID){h2._frameEnd = f;}}); hitboxes.push(h); continue; }
+      if(/^\s*AttackModule__clear_all/.test(s) || /^\s*grab\(MA_MSC_CMD_GRAB_CLEAR_ALL\)/.test(s)){ hitboxes.forEach(h=>{if(!("_frameEnd" in h)){h._frameEnd = f;}}); continue; }
+      let clear = s.match(/^\s*AttackModule__clear\(ID=(\d+)\)/);
+      if(clear !== null && clear.length==2){ hitboxes.forEach(h=>{if(h.ID == clear[1] && !("_frameEnd" in h)){h._frameEnd = f;}}); continue; }
+      if(/^\s*WorkModule__off_flag\(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING\)/.test(s)){ move.autocancel = f; }
+      if(/^FT_MOTION_RATE/.test(s)){ let msg = `WARNING (${niceName}): FT_MOTION_RATE is used. Please adjust frames manually.`; console.warn(msg); alert(msg); continue;}
+      if(/^for\(/.test(s)){ let msg = `WARNING (${niceName}): for loop is used. Please adjust frames manually.`; console.warn(msg); alert(msg); continue;}
+    }
+    hitboxes.forEach(h=>{if(!("_frameEnd" in h)){h._frameEnd = f;}});
+    move.hitboxes = hitboxes;
+    return move;
+
+    function readHitbox(s){
+      let h = Object.fromEntries(
+          [...s.matchAll(/([\w\/]+)=([\w\._]+)/g)]
+          .map(x => [x[1], x[2]])
+      );
+      if(s.includes("CATCH(")){ h._type = "Grab"; }
+      return h;
+    }
+  }
+
+  setHitboxCustom(move, hitbox_id, param, value){
+    this.get(move).hitboxes[hitbox_id][param] = value;
+  }
+
+  setHitboxColor(move, hitbox_id, color){
+    setHitboxCustom(move, hitbox_id, "_color", color)
+  }
+
+  setHitboxNotes(move, hitbox_id, notes){
+    setHitboxCustom(move, hitbox_id, "_notes", notes)
+  }
+
+  setMoveNotes(move, notes){
+    this.get(move)._notes = notes;
+  }
+
+  stringify(){
+    return JSON.stringify(this, function(k, v){
+      if(v instanceof Map){
+        return [...v.entries()]
+      }
+      return v;
+    });
+  }
+}
+
+// utility functions
+
+function changeScript(index){
+  let select = document.querySelector(".script-select select:last-child")
+  select.value = index;
+  let e = document.createEvent("HTMLEvents");
+  e.initEvent("change", true, true);
+  select.dispatchEvent(e);
+}
+
+function addScript(moveset, index, niceName){
+  changeScript(index);
+  return moveset.addCurrentMove(niceName);
+}
+
+function addAllScripts(moveset, scriptMap){
+  Object.keys(scriptMap).forEach(i => {
+    addScript(moveset, i, scriptMap[i])
+  });
+  return moveset;
+}
+
+/*
+let moveset = new Moveset();
+let scriptMap = {
+  26: "Neutral Air",
+  27: "Forward Air",
+  28: "Back Air",
+  29: "Up Air",
+  30: "Down Air"
+};
+addAllScripts(moveset, scriptMap)
+*/
