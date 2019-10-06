@@ -12,22 +12,78 @@ class Moveset extends Map {
 
   scrapeMove(niceName){
     let move = {};
+    move.niceName = niceName;
     let hitboxes = [];
     let f = 1;
-    let script = [...document.querySelectorAll(".script-cmd")].map(e=>e.parentNode.textContent)
+    let script = [...document.querySelectorAll(".script-cmd")].map(e=>e.parentNode.textContent);
     for(let s of script){
+      // Frame
       let frame = s.match(/^frame\(Frame=(\d+)\)/);
-      if(frame !== null && frame.length==2){ f = Number(frame[1]); continue; }
+      if(frame !== null && frame.length==2){
+        f = Number(frame[1]);
+        continue;
+      }
+      // Wait
       let wait = s.match(/^wait\(Frames=(\d+)\)/) || s.match(/^wait\(0, (\d+)\)/) ;
-      if(wait !== null && wait.length==2){ f += Number(wait[1]); continue; }
-      if(/^\s*ATTACK\(/.test(s)){ let h = readHitbox(s); h._frameStart = f; hitboxes.forEach((h2,i)=>{if(!("_frameEnd" in h2) && h.ID == h2.ID){h2._frameEnd = f;}}); hitboxes.push(h); continue; }
-      if(/^\s*CATCH\(/.test(s)){ let h = readHitbox(s); h._frameStart = f; hitboxes.forEach((h2,i)=>{if(!("_frameEnd" in h2) && h.ID == h2.ID){h2._frameEnd = f;}}); hitboxes.push(h); continue; }
-      if(/^\s*AttackModule__clear_all/.test(s) || /^\s*grab\(MA_MSC_CMD_GRAB_CLEAR_ALL\)/.test(s)){ hitboxes.forEach(h=>{if(!("_frameEnd" in h)){h._frameEnd = f;}}); continue; }
+      if(wait !== null && wait.length==2){
+        f += Number(wait[1]);
+        continue;
+      }
+      // Attack
+      if(/^\s*ATTACK\(/.test(s)){
+        let h = readHitbox(s);
+        h._frameStart = f;
+        hitboxes.forEach((h2,i) => {
+          if(!("_frameEnd" in h2) && h.ID == h2.ID){
+            h2._frameEnd = f;
+          }
+        });
+        hitboxes.push(h);
+        continue;
+      }
+      // Grab
+      if(/^\s*CATCH\(/.test(s)){
+        let h = readHitbox(s);
+        h._frameStart = f;
+        hitboxes.forEach((h2,i) => {
+          if(!("_frameEnd" in h2) && h.ID == h2.ID){
+            h2._frameEnd = f;
+          }
+        });
+        hitboxes.push(h);
+        continue;
+      }
+      // Clear all hitboxes
+      if(/^\s*AttackModule__clear_all/.test(s) || /^\s*grab\(MA_MSC_CMD_GRAB_CLEAR_ALL\)/.test(s)){
+        hitboxes.forEach(h => {
+          if(!("_frameEnd" in h)){
+            h._frameEnd = f;
+          }
+        });
+        continue;
+      }
+      // Clear hitbox ID
       let clear = s.match(/^\s*AttackModule__clear\(ID=(\d+)\)/);
-      if(clear !== null && clear.length==2){ hitboxes.forEach(h=>{if(h.ID == clear[1] && !("_frameEnd" in h)){h._frameEnd = f;}}); continue; }
-      if(/^\s*WorkModule__off_flag\(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING\)/.test(s)){ move.autocancel = f; }
-      if(/^FT_MOTION_RATE/.test(s)){ let msg = `WARNING (${niceName}): FT_MOTION_RATE is used. Please adjust frames manually.`; console.warn(msg); alert(msg); continue;}
-      if(/^for\(/.test(s)){ let msg = `WARNING (${niceName}): for loop is used. Please adjust frames manually.`; console.warn(msg); alert(msg); continue;}
+      if(clear !== null && clear.length==2){
+        hitboxes.forEach(h=>{if(h.ID == clear[1] && !("_frameEnd" in h)){h._frameEnd = f;}});
+        continue;
+      }
+      // Autocancel
+      if(/^\s*WorkModule__off_flag\(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING\)/.test(s)){
+        move.autocancel = f;
+      }
+      // FT_MOTION_RATE
+      if(/^FT_MOTION_RATE/.test(s)){
+        let msg = `WARNING (${niceName}): FT_MOTION_RATE is used. Please adjust frames manually.`;
+        console.warn(msg); alert(msg);
+        continue;
+      }
+      // For-loop
+      if(/^for\(/.test(s)){
+        let msg = `WARNING (${niceName}): for loop is used. Please adjust frames manually.`;
+        console.warn(msg); alert(msg);
+        continue;
+      }
     }
     hitboxes.forEach(h=>{if(!("_frameEnd" in h)){h._frameEnd = f;}});
     move.hitboxes = hitboxes;
@@ -91,14 +147,21 @@ function addAllScripts(moveset, scriptMap){
   return moveset;
 }
 
-/*
-let moveset = new Moveset();
-let scriptMap = {
-  26: "Neutral Air",
-  27: "Forward Air",
-  28: "Back Air",
-  29: "Up Air",
-  30: "Down Air"
-};
-addAllScripts(moveset, scriptMap)
-*/
+function saveMoveset(moveset, filename="moveset.json"){
+  let blob = new Blob([moveset.stringify()], { type: "text/json" });
+  let a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.dispatchEvent(new MouseEvent("click"));
+}
+
+(function example_run(){
+  let moveset = new Moveset();
+  let scriptMap = {
+    26: "Neutral Air",
+    27: "Forward Air",
+    29: "Up Air"
+  };
+  addAllScripts(moveset, scriptMap);
+  saveMoveset(moveset);
+})();

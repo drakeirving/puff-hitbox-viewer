@@ -132,7 +132,7 @@ function setupButtons(){
 
     // autocancel
     if("autocancel" in currentMove){
-      createTick(currentMove.autocancel, 1, "green");
+      createTick(currentMove.autocancel, 1, "blue");
     }
 
     function createTick(start, duration, ...classList){
