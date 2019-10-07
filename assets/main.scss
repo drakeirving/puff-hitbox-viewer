@@ -139,28 +139,20 @@ footer{
         content: attr(data-tooltip);
         display: none;
         position: absolute;
-        background: #000;
-        color: #fff;
-        padding: 4px 8px;
-        font-size: 14px;
-        line-height: 1.4;
-        min-width: 100px;
-        text-align: center;
-        border-radius: 4px;
-
         left: 50%;
-        -ms-transform: translateX(-50%);
-        -moz-transform: translateX(-50%);
-        -webkit-transform: translateX(-50%);
         transform: translateX(-50%);
-
         bottom: 100%;
         margin-bottom: 6px;
+        padding: 4px 16px;
+        border-radius: 4px;
+        background: #000;
+        color: #fff;
+        text-align: center;
+        font-size: 14px;
       }
-      &[data-tooltip]:hover:before,
-      &[data-tooltip]:hover:after {
+      &[data-tooltip]:hover:before{
         display: block;
-        z-index: 50;
+        z-index: 10;
       }
     }
 

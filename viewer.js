@@ -223,7 +223,7 @@ function setupControls(){
     }
     drag(e);
     sliderContainer.addEventListener('pointermove', drag);
-    sliderContainer.addEventListener('pointerup', e => {
+    document.addEventListener('pointerup', e => {
       sliderContainer.removeEventListener('pointermove', drag);
     }, {once: true});
   });
