@@ -7,7 +7,7 @@ const ParamList = (() => {
     return {
       name: name,
       filter: filter,         // if omitted, all values are accepted
-      transform: transform,  // if omitted, values are not transformed on output
+      transform: transform, // if omitted, values are not transformed on output
       niceName: niceName    // if omitted, table header name is param name
     }
   }
@@ -33,6 +33,7 @@ const ParamList = (() => {
     Param("SDI", not(1)),
     Param("Rehit", not(0)),
     Param("Trip", not(0), x => `${x*100}%`),
+    Param("Flinchless", not("False")),
     Param("Effect", not("collision_attr_normal"), x => ({
       "collision_attr_normal": "Normal",
       "0x13135c5462": "Rush",
@@ -55,7 +56,7 @@ const ParamList = (() => {
       "COLLISION_SITUATION_MASK_A": "Air"
     })[x]),
     Param("_notes", pass, self, "Notes")
-  ];
+  ]; // TODO: more params
 
   return list;
 })();

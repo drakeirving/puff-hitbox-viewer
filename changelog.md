@@ -10,7 +10,7 @@ title: Changelog
 
 - allow move notes
 - show active frames, faf?
-- tool to scrape ultframedata (active, faf)
+- tool to scrape ultframedata (faf)
 
 #### Public
 {% endif %}

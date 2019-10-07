@@ -6,9 +6,10 @@ const controlPlay = document.querySelector("#control-play");
 const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
 const frameCounter = document.querySelector("#frame-counter");
+const sliderContainer = document.querySelector("#slider-container");
 const frameSlider = document.querySelector("#frame-slider");
 const tickContainer = document.querySelector("#tick-container");
-let hitboxDetails = document.querySelector("#hitbox-details");
+const hitboxDetails = document.querySelector("#hitbox-details");
 
 const STEP = 0.06;
 const RATE = 1/STEP;
@@ -46,7 +47,7 @@ getData("./moveset.json")
 
 function setupAll(){
   populateSelect();
-  setupButtons();
+  setupControls();
 }
 
 function populateSelect(){
@@ -89,7 +90,7 @@ function prepareClip(url){
 --------------------------------*/
 // TODO: explain the epsilon bullshit
 
-function setupButtons(){
+function setupControls(){
 
   player.addEventListener("loadedmetadata", event => {
     maxFrame = Math.max(1, Math.floor((player.duration + EPS) / STEP));
@@ -122,25 +123,28 @@ function setupButtons(){
     if(b.length % 2 == 1){ b.push(maxFrame+1 - b[b.length-1]); } // if last frame is still active somehow
 
     for(let i = 0; i < b.length; i+=2){
-      createTick(b[i], b[i+1], "red");
+      createTick(b[i], b[i+1], "Active", "red");
     }
 
     // faf
     if("faf" in currentMove){
-      createTick(currentMove.faf, 1);
+      createTick(currentMove.faf, 1, "FAF");
     }
 
     // autocancel
     if("autocancel" in currentMove){
-      createTick(currentMove.autocancel, 1, "blue");
+      createTick(currentMove.autocancel, 1, "Autocancel", "blue");
     }
 
-    function createTick(start, duration, ...classList){
+    // TODO: ledgesnap?
+
+    function createTick(start, duration, tooltip, ...classList){
       let t = document.createElement("span");
       t.classList.add("tick");
       classList.forEach(c => {
         t.classList.add("tick-" + c);
       });
+      t.setAttribute("data-tooltip", tooltip);
       let l = (maxFrame > 1) ? (start - 1) / (maxFrame - 1) : 0;
       let w = (maxFrame > 1) ? (duration - 1) / (maxFrame - 1) : 1;
       t.style.setProperty("left", `calc((100% - 16px) * ${l})`);
@@ -148,6 +152,8 @@ function setupButtons(){
       tickContainer.append(t);
     }
   }
+
+  // BUTTONS / PLAYER
 
   controlStart.addEventListener("click", event => {
     setPlayerTime(0);
@@ -204,7 +210,24 @@ function setupButtons(){
     }
   });
 
+  // SLIDER CONTROLS
+
   let slideThrottle = false;
+
+  sliderContainer.addEventListener('pointerdown', e => {
+    function drag(e) {
+      if(!slideThrottle){
+        frameSlider.value = maxFrame * (e.clientX - sliderContainer.offsetLeft) / sliderContainer.offsetWidth + 0.5;
+        frameSlider.dispatchEvent(new Event("input"));
+      }
+    }
+    drag(e);
+    sliderContainer.addEventListener('pointermove', drag);
+    sliderContainer.addEventListener('pointerup', e => {
+      sliderContainer.removeEventListener('pointermove', drag);
+    }, {once: true});
+  });
+
   frameSlider.addEventListener("input", event => {
     if(!slideThrottle && (frameSlider.valueAsNumber - 1) * STEP + EPS/2 < player.duration){
       setPlayerTime((frameSlider.valueAsNumber - 1) * STEP + EPS/2);
@@ -212,6 +235,8 @@ function setupButtons(){
     }
   });
   setInterval(() => slideThrottle = false, 25);
+
+  // COMMON
 
   function setPlayerTime(t){
     if(player.readyState == 4){
