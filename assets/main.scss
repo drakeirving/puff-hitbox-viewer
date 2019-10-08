@@ -134,26 +134,6 @@ footer{
       &-small {
         transform: scale(0.75);
       }
-
-      &[data-tooltip]:before {
-        content: attr(data-tooltip);
-        display: none;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 100%;
-        margin-bottom: 6px;
-        padding: 4px 16px;
-        border-radius: 4px;
-        background: #000;
-        color: #fff;
-        text-align: center;
-        font-size: 14px;
-      }
-      &[data-tooltip]:hover:before{
-        display: block;
-        z-index: 10;
-      }
     }
 
   }
@@ -390,4 +370,36 @@ $hitboxColors: (
   tr.type-grab:nth-of-type(#{$i}) .hitbox-color-icon{
     background: nth(map-get($hitboxColors, "grab"), $i);
   }
+}
+
+span[data-tooltip] {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    border-bottom: 1px dotted black;
+  }
+}
+
+[data-tooltip]:before {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 100%;
+  margin-bottom: 6px;
+  padding: 4px 16px;
+  border-radius: 4px;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  font-weight: normal;
+}
+[data-tooltip]:hover:before{
+  display: block;
+  z-index: 10;
 }

@@ -1,61 +1,79 @@
 const ParamList = (() => {
-  let not = y => (x => x != y);
-  let pass = x => true;
-  let self = x => x;
+  const not = y => (x => x != y);
+  const pass = x => true;
+  const self = x => x;
 
-  function Param(name, filter = pass, transform = self, niceName = name){
+  function Param(name, options={}){
     return {
       name: name,
-      filter: filter,         // if omitted, all values are accepted
-      transform: transform, // if omitted, values are not transformed on output
-      niceName: niceName    // if omitted, table header name is param name
+      filter: options.filter || pass,         // if omitted, all values are accepted
+      transform: options.transform || self, // if omitted, values are not transformed on output
+      tooltip: options.tooltip || null,     // if omitted, no tooltip
+      niceName: options.niceName || name    // if omitted, table header name is param name
     }
   }
 
   let list = [
-    Param("ID", pass, x => {
-      let e = document.createElement("span");
-      e.classList += "hitbox-id";
-      let icon = document.createElement("span");
-      icon.classList += "hitbox-color-icon";
-      e.append(icon);
-      e.append(x);
-      return e;
+    Param("ID", {
+      transform: x => {
+        let e = document.createElement("span");
+        e.classList += "hitbox-id";
+        let icon = document.createElement("span");
+        icon.classList += "hitbox-color-icon";
+        e.append(icon);
+        e.append(x);
+        return e;
+      },
+      tooltip: "derp"
     }),
-    Param("_type", pass, self, "Type"),
+    Param("_type", { nicename: "Type" }),
     Param("Damage"),
-    Param("ShieldDamage", not(0), self, "ShieldDmg"),
-    Param("Angle", pass, x => `${x}°`),
+    Param("ShieldDamage", { filter: not(0), niceName: "ShieldDmg" }),
+    Param("Angle", { transform: x => `${x}°` }),
     Param("KBG"),
     Param("BKB"),
-    Param("FKB", not(0)),
-    Param("Hitlag", not(1)),
-    Param("SDI", not(1)),
-    Param("Rehit", not(0)),
-    Param("Trip", not(0), x => `${x*100}%`),
-    Param("Flinchless", not("False")),
-    Param("Effect", not("collision_attr_normal"), x => ({
-      "collision_attr_normal": "Normal",
-      "0x13135c5462": "Rush",
-      "0x149cdc52bb": "Sleep",
-      "0x152497ab8d": "Flower"
-    })[x]),
-    Param("FacingRestrict", not("ATTACK_LR_CHECK_POS"), x => ({
-      "ATTACK_LR_CHECK_POS": "F/B",
-      "ATTACK_LR_CHECK_F": "F",
-      "ATTACK_LR_CHECK_B": "B"
-    })[x], "Dir."),
-    Param("Clang/Rebound", not("ATTACK_SETOFF_KIND_ON"), x => ({
-      "ATTACK_SETOFF_KIND_ON": "Yes",
-      "ATTACK_SETOFF_KIND_THRU": "No Rebound",
-      "ATTACK_SETOFF_KIND_OFF": "No Clank",
-    })[x], "Clank/Rebound"),
-    Param("Ground/Air", not("COLLISION_SITUATION_MASK_GA"), x => ({
-      "COLLISION_SITUATION_MASK_GA": "Both",
-      "COLLISION_SITUATION_MASK_G": "Ground",
-      "COLLISION_SITUATION_MASK_A": "Air"
-    })[x]),
-    Param("_notes", pass, self, "Notes")
+    Param("FKB", { filter: not(0) }),
+    Param("Hitlag", { filter: not(1) }),
+    Param("SDI", { filter: not(1) }),
+    Param("Rehit", { filter: not(0) }),
+    Param("Trip", { filter: not(0), transform: x => `${x*100}%` }),
+    Param("Flinchless", { filter: not("False") }),
+    Param("Effect", {
+      filter: not("collision_attr_normal"),
+      transform: x => ({
+        "collision_attr_normal": "Normal",
+        "0x13135c5462": "Rush",
+        "0x149cdc52bb": "Sleep",
+        "0x152497ab8d": "Flower"
+      })[x]
+    }),
+    Param("FacingRestrict", {
+      filter: not("ATTACK_LR_CHECK_POS"),
+      transform: x => ({
+        "ATTACK_LR_CHECK_POS": "F/B",
+        "ATTACK_LR_CHECK_F": "F",
+        "ATTACK_LR_CHECK_B": "B"
+      })[x],
+      niceName: "Dir."
+    }),
+    Param("Clang/Rebound", {
+      filter: not("ATTACK_SETOFF_KIND_ON"),
+      transform: x => ({
+        "ATTACK_SETOFF_KIND_ON": "Yes",
+        "ATTACK_SETOFF_KIND_THRU": "No Rebound",
+        "ATTACK_SETOFF_KIND_OFF": "No Clank",
+      })[x],
+      niceName: "Clank/Rebound"
+    }),
+    Param("Ground/Air", {
+      filter: not("COLLISION_SITUATION_MASK_GA"),
+      transform: x => ({
+        "COLLISION_SITUATION_MASK_GA": "Both",
+        "COLLISION_SITUATION_MASK_G": "Ground",
+        "COLLISION_SITUATION_MASK_A": "Air"
+      })[x]
+    }),
+    Param("_notes", { nicename: "Notes" })
   ]; // TODO: more params
 
   return list;

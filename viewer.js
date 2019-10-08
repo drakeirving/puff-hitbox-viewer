@@ -139,7 +139,7 @@ function setupControls(){
     // TODO: ledgesnap?
 
     function createTick(start, duration, tooltip, ...classList){
-      let t = document.createElement("span");
+      let t = document.createElement("div");
       t.classList.add("tick");
       classList.forEach(c => {
         t.classList.add("tick-" + c);
@@ -217,7 +217,8 @@ function setupControls(){
   sliderContainer.addEventListener('pointerdown', e => {
     function drag(e) {
       if(!slideThrottle){
-        frameSlider.value = maxFrame * (e.clientX - sliderContainer.offsetLeft) / sliderContainer.offsetWidth + 0.5;
+        let v = (maxFrame-1) * (e.clientX - sliderContainer.offsetLeft - 8) / (sliderContainer.offsetWidth - 16) + 1;
+        frameSlider.value = v;
         frameSlider.dispatchEvent(new Event("input"));
       }
     }
@@ -312,9 +313,18 @@ function generateTable(hitboxes){
   let row = thead.insertRow();
   for(let p of params){
     let th = document.createElement("th");
-    th.append(p.niceName);
+    let content = p.tooltip ? wrapTooltip(p.niceName, p.tooltip) : p.niceName;
+    th.append(content);
     row.append(th);
   }
   // add to page
   hitboxDetails.append(table);
+
+  function wrapTooltip(content, tooltip){
+    let span = document.createElement("span");
+    span.append(content);
+    span.setAttribute("data-tooltip", tooltip);
+    console.log(span);
+    return span;
+  }
 }
