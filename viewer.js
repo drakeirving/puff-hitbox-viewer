@@ -123,17 +123,17 @@ function setupControls(){
     if(b.length % 2 == 1){ b.push(maxFrame+1 - b[b.length-1]); } // if last frame is still active somehow
 
     for(let i = 0; i < b.length; i+=2){
-      createTick(b[i], b[i+1], "Active", "red");
+      createTick(b[i], b[i+1], `Active: ${b[i]}-${b[i]+b[i+1]-1}`, "red");
     }
 
     // faf
     if("faf" in currentMove){
-      createTick(currentMove.faf, 1, "FAF");
+      createTick(currentMove.faf, 1, `FAF: ${currentMove.faf}`);
     }
 
     // autocancel
     if("autocancel" in currentMove){
-      createTick(currentMove.autocancel, 1, "Autocancel", "blue");
+      createTick(currentMove.autocancel, 1, `Autocancel: ${currentMove.autocancel}`, "blue");
     }
 
     // TODO: ledgesnap?
