@@ -13,10 +13,6 @@ The different colors represent different hitbox IDs. When checking for collision
 
 The straight lines show the knockback angle of the hitbox. Hitboxes with a + shape denote the Sakurai angle, which you can read about [here](https://www.ssbwiki.com/Sakurai_angle).
 
-> What does [X] hitbox parameter/value mean?
-
-For now you can either wait until tooltips are implemented or you can go do a bit of research.
-
 > Are you going to add other characters?
 
 At the very least I've been planning to make this app moderately extensible, but the process of putting together all the relevant data and clips and setting it all up correctly is largely a manual process (even though scripts are involved). Implementing any new exceptions that arise will likely also make it not so straightforward.

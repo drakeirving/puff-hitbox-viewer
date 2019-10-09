@@ -324,7 +324,6 @@ function generateTable(hitboxes){
     let span = document.createElement("span");
     span.append(content);
     span.setAttribute("data-tooltip", tooltip);
-    console.log(span);
     return span;
   }
 }
