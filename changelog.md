@@ -8,27 +8,25 @@ title: Changelog
 {% if jekyll.environment != "production" %}
 #### Private
 
-- allow move notes
-- show active frames, faf?
-- tool to scrape ultframedata (faf)
-
 #### Public
 {% endif %}
 
-- Hitbox info display
-  - tooltip for term explanations
-
 - Document workflow on wiki
-  - prepare for kludge
+- Improve tools
 
 ### Changelog
 
 {% if jekyll.environment != "production" %}
-#### Private
+#### Pre-release
 
 {% endif %}
 
-#### v1.0.7
+#### v1.1.0
+- Implemented timeline visualizations
+  - Active frames
+  - FAF
+  - Autocancel
+- Implemented tooltips and added to various things
 - Added Grab type and color mapping for grabs
 - Adjusted colors to match CrossMod output
 - Added hitbox parameter for custom colors
