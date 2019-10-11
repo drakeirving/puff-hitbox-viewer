@@ -10,6 +10,7 @@ const sliderContainer = document.querySelector("#slider-container");
 const frameSlider = document.querySelector("#frame-slider");
 const tickContainer = document.querySelector("#tick-container");
 const hitboxDetails = document.querySelector("#hitbox-details");
+const moveNotes = document.querySelector("#move-notes");
 
 const STEP = 0.06;
 const RATE = 1/STEP;
@@ -98,7 +99,24 @@ function setupControls(){
     frameSlider.max = maxFrame;
 
     updateActiveFrames();
+    updateMoveNotes();
   });
+
+  function clearMoveNotes(){
+    while(moveNotes.hasChildNodes()){ moveNotes.removeChild(moveNotes.firstChild); }
+  }
+
+  function updateMoveNotes(){
+    clearMoveNotes();
+    if("_notes" in currentMove){
+      let div = document.createElement("div");
+      let s = document.createElement("strong");
+      s.append("Additional Notes: ");
+      div.append(s);
+      div.append(currentMove._notes);
+      moveNotes.append(div);
+    }
+  }
 
   function clearActiveFrames(){
     while(tickContainer.hasChildNodes()){ tickContainer.removeChild(tickContainer.firstChild); }
@@ -285,7 +303,6 @@ function generateTable(hitboxes){
     for(let h of hitboxes){
       if(p.name in h && p.filter(h[p.name])){
         params.push(p);
-        // TODO: add css [data-tooltip] for :hover -> underline, click -> toggle
         break;
       }
     }

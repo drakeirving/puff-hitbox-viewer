@@ -163,5 +163,6 @@ function saveMoveset(moveset, filename="moveset.json"){
     29: "Up Air"
   };
   addAllScripts(moveset, scriptMap);
-  saveMoveset(moveset);
+  // saveMoveset(moveset);
+	return moveset;
 })();

@@ -404,3 +404,20 @@ span[data-tooltip] {
   display: block;
   z-index: 10;
 }
+
+/* ===== */
+/* notes */
+/* ===== */
+
+#move-notes {
+  div {
+    display: inline-block;
+    min-width: 50%;
+    max-width: 95%;
+    border: 1px solid #aaa;
+    padding: 8px 12px;
+    background: #80808020;
+    text-align: justify;
+    white-space: pre-line;
+  }
+}
