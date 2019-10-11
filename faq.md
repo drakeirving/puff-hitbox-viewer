@@ -19,6 +19,8 @@ At the very least I've been planning to make this app moderately extensible, but
 
 I'm aiming to provide some tools and document the workflow that would be needed to get other characters added, and people willing to contribute are welcome to contact me and/or submit pull requests.
 
+Check out the [repository's wiki](https://github.com/drakeirving/puff-hitbox-viewer/wiki) on Github for more information!
+
 > I have a feature request / suggestion!
 
 Check the [changelog]({{ 'changelog.html' | relative_url }}) page for the to-do list to see if it's already planned.  
