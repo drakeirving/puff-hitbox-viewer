@@ -81,11 +81,13 @@ footer{
   text-align: right;
 }
 
-#move-select select{
+select{
+  min-width: 10em;
+  margin: 0 0.5em;
   font-family: "Source Sans Pro";
   font-size: 18px;
 }
-#move-select option{
+option{
   font-family: "Source Sans Pro", "PT Sans", "Fira Sans", "Segoe UI", sans-serif;
 }
 

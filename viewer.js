@@ -1,5 +1,9 @@
+const CHARACTERS = [
+  "Jigglypuff"
+];
 const player = document.querySelector("#player video");
-const select = document.querySelector("#move-select select");
+const charSelect = document.querySelector("#char-select");
+const moveSelect = document.querySelector("#move-select");
 const controlStart = document.querySelector("#control-start");
 const controlBack = document.querySelector("#control-back");
 const controlPlay = document.querySelector("#control-play");
@@ -15,12 +19,14 @@ const moveNotes = document.querySelector("#move-notes");
 const STEP = 0.06;
 const RATE = 1/STEP;
 const EPS = 0.00001;
-let endFrame = 1;
 
+let currentChar = null;
 let moveset = null;
 let currentMove = null;
 let currentFrame = 1;
 let maxFrame = 1;
+frameCounter.value = "";
+frameCounter.disabled = true;
 
 /*--------------------------------
          LOADING / SETUP
@@ -31,7 +37,7 @@ function getData(file){
     .then(data => data.text())
     .then(str => {
       moveset = parse(str);
-      setupAll();
+      setupChar();
     })
 
     function parse(str){
@@ -44,27 +50,46 @@ function getData(file){
     }
 }
 
-getData("./moveset.json")
+// getData("./data/Jigglypuff/moveset.json")
+populateCharSelect();
+setupControls();
 
-function setupAll(){
-  populateSelect();
-  setupControls();
+function setupChar(){
+  // populateCharSelect();
+  populateMoveSelect();
+  // setupControls();
 }
 
-function populateSelect(){
+function populateCharSelect(){
+  CHARACTERS.forEach((x) => {
+    let e = document.createElement("option");
+    e.value = x;
+    e.text = x;
+    charSelect.add(e);
+  });
+
+  charSelect.addEventListener("change", event => {
+    currentChar = event.target.value;
+    getData(`./data/${currentChar}/moveset.json`);
+  })
+
+  charSelect.selectedIndex = 0;
+}
+
+function populateMoveSelect(){
   moveset.forEach((value, key) => {
     let e = document.createElement("option");
     e.value = key;
     e.text = value.niceName;
-    select.add(e);
+    moveSelect.add(e);
   });
 
-  select.addEventListener("change", event => {
+  moveSelect.addEventListener("change", event => {
     currentMove = moveset.get(event.target.value);
-    loadAVideo(`./video/mp4/${currentMove.niceName}.mp4`);
+    loadAVideo(`./data/Jigglypuff/video/mp4/${currentMove.niceName}.mp4`);
   })
 
-  select.selectedIndex = 0;
+  moveSelect.selectedIndex = 0;
 }
 
 function loadAVideo(src){ // if blob breaks some browsers then whoops
