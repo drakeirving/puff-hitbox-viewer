@@ -1,5 +1,6 @@
 const CHARACTERS = [
-  "Jigglypuff"
+  "Jigglypuff",
+  "Piranha Plant"
 ];
 const player = document.querySelector("#player video");
 const charSelect = document.querySelector("#char-select");
@@ -16,7 +17,7 @@ const tickContainer = document.querySelector("#tick-container");
 const hitboxDetails = document.querySelector("#hitbox-details");
 const moveNotes = document.querySelector("#move-notes");
 
-const STEP = 0.06;
+const STEP = 0.05; // assumed 20.00 FPS
 const RATE = 1/STEP;
 const EPS = 0.00001;
 
@@ -32,33 +33,8 @@ frameCounter.disabled = true;
          LOADING / SETUP
 --------------------------------*/
 
-function getData(file){
-  return fetch(file)
-    .then(data => data.text())
-    .then(str => {
-      moveset = parse(str);
-      setupChar();
-    })
-
-    function parse(str){
-      return JSON.parse(str, function(k, v){
-        if(v instanceof Array && v.every(x=>x.length==2)){
-          return new Map(v)
-        }
-        return v;
-      })
-    }
-}
-
-// getData("./data/Jigglypuff/moveset.json")
 populateCharSelect();
 setupControls();
-
-function setupChar(){
-  // populateCharSelect();
-  populateMoveSelect();
-  // setupControls();
-}
 
 function populateCharSelect(){
   CHARACTERS.forEach((x) => {
@@ -76,6 +52,31 @@ function populateCharSelect(){
   charSelect.selectedIndex = 0;
 }
 
+function getData(file){
+  return fetch(file)
+    .then(data => data.text())
+    .then(str => {
+      moveset = parse(str);
+      setupChar();
+    })
+
+  function parse(str){
+    return JSON.parse(str, function(k, v){
+      if(v instanceof Array && v.every(x=>x.length==2)){
+        return new Map(v)
+      }
+      return v;
+    })
+  }
+}
+
+function setupChar(){
+  [...moveSelect.children].forEach(x => {
+    if(x.value.length > 0){ moveSelect.removeChild(x); }
+  });
+  populateMoveSelect();
+}
+
 function populateMoveSelect(){
   moveset.forEach((value, key) => {
     let e = document.createElement("option");
@@ -86,7 +87,7 @@ function populateMoveSelect(){
 
   moveSelect.addEventListener("change", event => {
     currentMove = moveset.get(event.target.value);
-    loadAVideo(`./data/Jigglypuff/video/mp4/${currentMove.niceName}.mp4`);
+    loadAVideo(`./data/${currentChar}/video/mp4/${currentMove.niceName}.mp4`);
   })
 
   moveSelect.selectedIndex = 0;

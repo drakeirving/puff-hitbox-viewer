@@ -1,13 +1,13 @@
 class Moveset extends Map {
-  constructor(){ super(); }
+  constructor(iter){ super(iter); }
 
   addCurrentMove(niceName){
     return this.set(
       document.querySelector(".script-select select:last-child").selectedOptions[0].textContent,
-      this.scrapeMove(niceName)
+      scrapeMove(niceName)
     );
 
-    scrapeMove(niceName){
+    function scrapeMove(niceName){
       let move = {};
       move.niceName = niceName;
       let hitboxes = [];
@@ -27,7 +27,7 @@ class Moveset extends Map {
           continue;
         }
         // Attack
-        if(/^\s*ATTACK\(/.test(s)){
+        if(/^\s*ATTACK(_IGNORE_THROW)?\(/.test(s)){
           let h = readHitbox(s);
           h._frameStart = f;
           hitboxes.forEach((h2,i) => {
@@ -109,6 +109,10 @@ class Moveset extends Map {
     setHitboxCustom(move, hitbox_id, "_notes", notes)
   }
 
+  setMoveFAF(move, faf){
+    this.get(move).faf = faf;
+  }
+
   setMoveNotes(move, notes){
     this.get(move)._notes = notes;
   }
@@ -157,6 +161,15 @@ function saveMoveset(moveset, filename="moveset.json"){
   a.href = URL.createObjectURL(blob);
   a.download = filename;
   a.dispatchEvent(new MouseEvent("click"));
+}
+
+function parseMoveset(str){
+  return JSON.parse(str, function(k, v){
+    if(v instanceof Array && v.every(x=>x.length==2)){
+      return new Moveset(v);
+    }
+    return v;
+  })
 }
 
 // (function example_run(){

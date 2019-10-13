@@ -33,9 +33,15 @@ const ParamList = (() => {
       },
       tooltip: "Hitbox ID: Hitboxes are checked for collision in ascending order of ID"
     }),
-    Param("_type", { nicename: "Type" }),
+    Param("_type", { niceName: "Type" }),
     Param("Damage"),
-    Param("ShieldDamage", { filter: not(0), niceName: "ShieldDmg" }),
+    Param("ShieldDamage", {
+      filter: not(0),
+      transform: x => ({
+        "no": "None"
+      })[x] || x,
+      niceName: "ShieldDmg"
+    }),
     Param("Angle", {
       transform: x => {
         let out = `${x}°`;
@@ -79,18 +85,21 @@ const ParamList = (() => {
       filter: not("collision_attr_normal"),
       transform: x => ({
         "collision_attr_normal": "Normal",
+        "collision_attr_cutup": wrapTooltip("CutUp", "Altered visual effect"),
+        "collision_attr_fire": wrapTooltip("Fire", "Altered visual effect"),
         "0x13135c5462": wrapTooltip("Rush", "Slightly reduced visual effects, typically seen with multihits"),
         "0x149cdc52bb": wrapTooltip("Sleep", "Causes the opponent to fall asleep, for a duration that scales with damage and KBG"),
-        "0x152497ab8d": wrapTooltip("Flower", "Puts a flower on the opponent that gradually damages them")
-      })[x]
+        "0x152497ab8d": wrapTooltip("Flower", "Puts a flower on the opponent that gradually damages them"),
+      })[x] || x
     }),
     Param("FacingRestrict", {
       filter: not("ATTACK_LR_CHECK_POS"),
       transform: x => ({
         "ATTACK_LR_CHECK_POS": wrapTooltip("F/B", "Sends forward or backwards depending on position relative to hitbox"),
         "ATTACK_LR_CHECK_F": wrapTooltip("F", "Always sends forwards"),
-        "ATTACK_LR_CHECK_B": wrapTooltip("B", "Always sends backwards")
-      })[x],
+        "ATTACK_LR_CHECK_B": wrapTooltip("B", "Always sends backwards"),
+        // "ATTACK_LR_CHECK_SPEED": wrapTooltip("", ""),
+      })[x] || x,
       niceName: "Dir.",
       tooltip: "Direction"
     }),
@@ -100,7 +109,7 @@ const ParamList = (() => {
         "ATTACK_SETOFF_KIND_ON": "Yes",
         "ATTACK_SETOFF_KIND_THRU": wrapTooltip("No Rebound", "Hit clanks without rebounding: the clanking hit will be canceled, but the move will continue"),
         "ATTACK_SETOFF_KIND_OFF": wrapTooltip("No Clank", "Hit does not clank with other hitboxes and both moves will continue unaffected"),
-      })[x],
+      })[x] || x,
       niceName: "Clank/Rebound",
       tooltip: "Whether the hitbox has the potential to clank and/or rebound upon collision with another hitbox"
     }),
@@ -110,7 +119,7 @@ const ParamList = (() => {
         "COLLISION_SITUATION_MASK_GA": "Both",
         "COLLISION_SITUATION_MASK_G": "Ground",
         "COLLISION_SITUATION_MASK_A": "Air"
-      })[x],
+      })[x] || x,
       tooltip: "Whether the move hits only grounded or airborne opponents, or both"
     }),
     Param("_notes", { nicename: "Notes" })
