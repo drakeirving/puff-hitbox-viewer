@@ -11,8 +11,9 @@ title: Changelog
 #### Public
 {% endif %}
 
-- Document workflow on wiki
-- Improve tools
+- More characters!
+- Document workflow on [wiki](https://github.com/drakeirving/puff-hitbox-viewer/wiki)
+- Improve tools for contributions
 
 ### Changelog
 
@@ -20,6 +21,11 @@ title: Changelog
 #### Pre-release
 
 {% endif %}
+
+#### v1.2.0
+- Added Piranha Plant!
+- Set up app for multiple characters, hopefully without too much going wrong
+- Updated Jigglypuff animations to include hurtbox visualizations (EyeDonutz)
 
 #### v1.1.0
 - Implemented timeline visualizations
