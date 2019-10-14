@@ -198,6 +198,25 @@ option{
     }
   }
 
+  .flex-sticky{
+    display: flex;
+
+    &-left{
+      display: flex;
+      justify-content: right;
+      width: 100%;
+    }
+    &-center{
+      display: flex;
+      justify-content: center;
+    }
+    &-right{
+      display: flex;
+      justify-content: left;
+      width: 100%;
+    }
+  }
+
   button {
     display: inline-block;
     border: none;
@@ -218,6 +237,8 @@ option{
     &#control-play[playing]{ background: url("./img/pause.svg") no-repeat; }
     &#control-next{ background: url("./img/step-forward.svg") no-repeat; }
     &#control-end{ background: url("./img/fast-forward.svg") no-repeat; }
+    &#control-loop{ background: url("./img/loop.svg") no-repeat; transform: scale(0.75); opacity: 50%; }
+    &#control-loop[loop]{ opacity: 100%; }
   }
 
   input#frame-counter{

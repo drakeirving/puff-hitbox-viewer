@@ -10,6 +10,7 @@ const controlBack = document.querySelector("#control-back");
 const controlPlay = document.querySelector("#control-play");
 const controlNext = document.querySelector("#control-next");
 const controlEnd = document.querySelector("#control-end");
+const controlLoop = document.querySelector("#control-loop");
 const frameCounter = document.querySelector("#frame-counter");
 const sliderContainer = document.querySelector("#slider-container");
 const frameSlider = document.querySelector("#frame-slider");
@@ -28,6 +29,7 @@ let currentFrame = 1;
 let maxFrame = 1;
 frameCounter.value = "";
 frameCounter.disabled = true;
+let loopFlag = false;
 
 /*--------------------------------
          LOADING / SETUP
@@ -227,6 +229,16 @@ function setupControls(){
     }
   });
 
+  controlLoop.addEventListener("click", event => {
+    if(loopFlag){
+      loopFlag = false;
+      controlLoop.removeAttribute("loop");
+    }else{
+      loopFlag = true;
+      controlLoop.setAttribute("loop","");
+    }
+  });
+
   controlNext.addEventListener("click", event => {
     if(player.currentTime < player.duration - STEP){
       setPlayerTime((Math.floor((player.currentTime + EPS) / STEP) + 1) * STEP + EPS/2);
@@ -239,8 +251,13 @@ function setupControls(){
 
   player.addEventListener("timeupdate", event => {
     if(player.currentTime - (player.duration - STEP) > EPS){ // (time > duration-step)
-      player.currentTime = player.duration - STEP + EPS/2;
-      player.pause();
+      if(loopFlag){
+        player.currentTime = 0;
+        player.play();
+      }else{
+        player.currentTime = player.duration - STEP + EPS/2;
+        player.pause();
+      }
     }
   });
 
