@@ -383,18 +383,18 @@ $hitboxColors: (
 
 @for $i from 1 through 9 {
   // row colors
-  tbody tr:nth-child(#{$i}){
+  tbody tr.hitbox-id-#{$i - 1}{
     background: change-color(nth(map-get($hitboxColors, "normal"), $i), $alpha: 0.125);
   }
-  tbody tr.type-grab:nth-child(#{$i}){
+  tbody tr.type-grab.hitbox-id-#{$i - 1}{
     background: change-color(nth(map-get($hitboxColors, "grab"), $i), $alpha: 0.125);
   }
 
   // id color markers
-  tr:nth-of-type(#{$i}) .hitbox-color-icon{
+  tr.hitbox-id-#{$i - 1} .hitbox-color-icon{
     background: nth(map-get($hitboxColors, "normal"), $i);
   }
-  tr.type-grab:nth-of-type(#{$i}) .hitbox-color-icon{
+  tr.type-grab.hitbox-id-#{$i - 1} .hitbox-color-icon{
     background: nth(map-get($hitboxColors, "grab"), $i);
   }
 }

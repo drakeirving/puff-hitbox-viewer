@@ -373,6 +373,9 @@ function generateTable(hitboxes){
     if("_color" in h){
       row.style.background = h._color + "20"; // if hex
       row.querySelector(".hitbox-color-icon").style.background = h._color;
+    }else{
+      // assumes there is an id?
+      row.classList.add(`hitbox-id-${h.ID}`);
     }
   }
   // create header
