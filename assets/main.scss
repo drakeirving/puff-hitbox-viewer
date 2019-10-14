@@ -133,6 +133,10 @@ option{
         @extend .tick;
         background-color: #0000ff80;
       }
+      &-yellow {
+        @extend .tick;
+        background-color: #dddd0080;
+      }
       &-small {
         transform: scale(0.75);
       }

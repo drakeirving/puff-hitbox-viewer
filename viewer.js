@@ -180,6 +180,13 @@ function setupControls(){
       createTick(currentMove.autocancel, 1, `Autocancel: ${currentMove.autocancel}`, "blue");
     }
 
+    // move transition
+    if("transition" in currentMove){
+      Object.keys(currentMove.transition).forEach((k) => {
+        createTick(k, 1, `Transition: ${k} (${currentMove.transition[k]})`, "yellow");
+      });
+    }
+
     // TODO: ledgesnap?
 
     function createTick(start, duration, tooltip, ...classList){
