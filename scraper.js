@@ -65,9 +65,22 @@ class Moveset extends Map {
           hitboxes.forEach(h=>{if(h.ID == clear[1] && !("_frameEnd" in h)){h._frameEnd = f;}});
           continue;
         }
-        // Autocancel
+        // Autocancels
+        if(/^\s*WorkModule__on_flag\(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING\)/.test(s)){
+          if(f > 1){
+            if(!("autocancel" in move)){
+              move.autocancel = { before: f-1 };
+            }else{
+              move.autocancel.before = f-1;
+            }
+          }
+        }
         if(/^\s*WorkModule__off_flag\(Flag=FIGHTER_STATUS_ATTACK_AIR_FLAG_ENABLE_LANDING\)/.test(s)){
-          move.autocancel = f;
+          if(!("autocancel" in move)){
+            move.autocancel = { after: f };
+          }else{
+            move.autocancel.after = f;
+          }
         }
         // FT_MOTION_RATE
         if(/^FT_MOTION_RATE/.test(s)){

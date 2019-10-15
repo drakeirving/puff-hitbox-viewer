@@ -179,7 +179,13 @@ function setupControls(){
 
     // autocancel
     if("autocancel" in currentMove){
-      createTick(currentMove.autocancel, 1, `Autocancel: ${currentMove.autocancel}`, "blue");
+      let ac = currentMove.autocancel;
+      if("before" in ac){
+        createTick(ac.before, 1, (ac.before > 1) ? `Autocancel: 1-${ac.before}` : `Autocancel: ${ac.before}`, "blue");
+      }
+      if("after" in ac){
+        createTick(ac.after, 1, `Autocancel: ${ac.after}+`, "blue");
+      }
     }
 
     // move transition
