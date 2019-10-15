@@ -22,6 +22,11 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.1
+- Added loop controls, cursor changes on hovering controls
+- Implemented move transition parameter
+- Extended autocancel display to also have the early windows
+
 #### v1.2.0
 - Added Piranha Plant!
 - Set up app for multiple characters, hopefully without too much going wrong
