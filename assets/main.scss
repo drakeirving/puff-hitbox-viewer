@@ -222,13 +222,14 @@ option{
   }
 
   button {
+    $buttonFilter: invert(1) brightness(0.25);
     display: inline-block;
     border: none;
     width: 32px;
     height: 32px;
     padding: 16px;
     margin: 8px;
-    filter: invert(1) brightness(0.25);
+    filter: $buttonFilter;
     outline: none;
 
     &:hover{
@@ -244,8 +245,8 @@ option{
     &#control-play[playing]{ background: url("./img/pause.svg") no-repeat; }
     &#control-next{ background: url("./img/step-forward.svg") no-repeat; }
     &#control-end{ background: url("./img/fast-forward.svg") no-repeat; }
-    &#control-loop{ background: url("./img/loop.svg") no-repeat; transform: scale(0.75); opacity: 50%; }
-    &#control-loop[loop]{ opacity: 100%; }
+    &#control-loop{ background: url("./img/loop.svg") no-repeat; transform: scale(0.75); filter: $buttonFilter opacity(0.5); }
+    &#control-loop[loop]{ filter: $buttonFilter opacity(1); }
   }
 
   input#frame-counter{
