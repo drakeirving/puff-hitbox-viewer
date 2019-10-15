@@ -105,6 +105,10 @@ option{
     position: relative;
     width: 95%;
     margin: 0 auto;
+
+    &:hover{
+      cursor: pointer;
+    }
   }
 
   #tick-container {
@@ -227,6 +231,9 @@ option{
     filter: invert(1) brightness(0.25);
     outline: none;
 
+    &:hover{
+      cursor: pointer;
+    }
     &:active {
       transform: scale(0.95);
     }
@@ -407,6 +414,9 @@ span[data-tooltip] {
     position: absolute;
     left: 0; right: 0; bottom: 0;
     border-bottom: 1px dotted black;
+  }
+  &:hover{
+    cursor: help;
   }
 }
 
