@@ -18,6 +18,8 @@ const tickContainer = document.querySelector("#tick-container");
 const hitboxDetails = document.querySelector("#hitbox-details");
 const moveNotes = document.querySelector("#move-notes");
 
+let userQuery = new URL(window.location).searchParams;
+
 const STEP = 0.05; // assumed 20.00 FPS
 const RATE = 1/STEP;
 const EPS = 0.00001;
@@ -35,8 +37,10 @@ let loopFlag = false;
          LOADING / SETUP
 --------------------------------*/
 
-populateCharSelect();
-setupControls();
+(function init(){
+  populateCharSelect();
+  setupControls();
+})();
 
 function populateCharSelect(){
   CHARACTERS.forEach((x) => {
@@ -47,11 +51,23 @@ function populateCharSelect(){
   });
 
   charSelect.addEventListener("change", event => {
-    currentChar = event.target.value;
-    getData(`./data/${currentChar}/moveset.json`);
+    setCharacter(event.target.value);
   })
 
   charSelect.selectedIndex = 0;
+
+  // check query params to load specific char
+  if(userQuery.has("char")){
+    setCharacter(userQuery.get("char"));
+  }
+}
+
+function setCharacter(char){
+  if(CHARACTERS.includes(char)){
+    currentChar = char;
+    charSelect.value = currentChar;
+    getData(`./data/${currentChar}/moveset.json`);
+  }
 }
 
 function getData(file){
@@ -88,11 +104,33 @@ function populateMoveSelect(){
   });
 
   moveSelect.addEventListener("change", event => {
-    currentMove = moveset.get(event.target.value);
-    loadAVideo(`./data/${currentChar}/video/mp4/${currentMove.niceName}.mp4`);
+    setMove(event.target.value);
   })
 
   moveSelect.selectedIndex = 0;
+
+  // check query params to load specific move
+  if(currentChar != null && userQuery.has("move")){
+    setMove(userQuery.get("move"));
+  }
+}
+
+function setMove(moveName){
+  if(moveset.has(moveName)){ // check script names
+    _setMove(moveName);
+  }else{
+    moveset.forEach((v,k) => { // check nice names
+      if(v.niceName == moveName){
+        _setMove(k);
+      }
+    });
+  }
+
+  function _setMove(move){
+    currentMove = moveset.get(move);
+    moveSelect.value = move;
+    loadAVideo(`./data/${currentChar}/video/mp4/${currentMove.niceName}.mp4`);
+  }
 }
 
 function loadAVideo(src){ // if blob breaks some browsers then whoops
