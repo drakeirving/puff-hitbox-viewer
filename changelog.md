@@ -22,6 +22,9 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.2
+- Implemented URL query params for linking to a specific character and/or move
+
 #### v1.2.1
 - Added loop controls, cursor changes on hovering controls
 - Implemented move transition parameter

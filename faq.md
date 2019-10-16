@@ -5,13 +5,15 @@ title: FAQ
 
 ### FAQ
 
+> Can I link directly to a particular character/move?
+
+Yes! You can add `char` and `move` query parameters to the URL to have them load immediately.
+
+Example: [https://drakeirving.github.io/ult-hitbox-viewer?char=Jigglypuff&move=Neutral Air]({{ '/?char=Jigglypuff&move=Neutral Air' | absolute_url }})
+
 > What do the different colors on the hitboxes mean?
 
 The different colors represent different hitbox IDs. When checking for collision, hitboxes are checked in ascending order, so if a Red (ID 0) and Purple (ID 1) hitbox both connect with something on the same frame, the Red hitbox is the one that actually hits.
-
-> What are the lines on the hitboxes?
-
-The straight lines show the knockback angle of the hitbox. Hitboxes with a + shape denote the Sakurai angle, which you can read about [here](https://www.ssbwiki.com/Sakurai_angle).
 
 > Are you going to add other characters?
 
