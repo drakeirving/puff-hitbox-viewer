@@ -38,7 +38,7 @@ const ParamList = (() => {
     Param("ShieldDamage", {
       filter: not(0),
       transform: x => ({
-        "no": "None"
+        "no": "Unblockable"
       })[x] || x,
       niceName: "ShieldDmg"
     }),
