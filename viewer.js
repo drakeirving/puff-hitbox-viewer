@@ -33,6 +33,9 @@ frameCounter.value = "";
 frameCounter.disabled = true;
 let loopFlag = false;
 
+// check query params to start at specific frame
+let initialFrame = (userQuery.has("f")) ? userQuery.get("f") : 1;
+
 /*--------------------------------
          LOADING / SETUP
 --------------------------------*/
@@ -166,6 +169,13 @@ function setupControls(){
 
     updateActiveFrames();
     updateMoveNotes();
+  });
+
+  player.addEventListener("canplaythrough", event => {
+    if(initialFrame > 1){ // if `frame` query param is prepared
+      setPlayerTime((initialFrame - 1) * STEP + EPS/2);
+      initialFrame = 1;
+    }
   });
 
   function clearMoveNotes(){

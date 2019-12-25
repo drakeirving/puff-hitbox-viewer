@@ -7,9 +7,9 @@ title: FAQ
 
 > Can I link directly to a particular character/move?
 
-Yes! You can add `char` and `move` query parameters to the URL to have them load immediately.
+Yes! You can add `char` and `move` query parameters to the URL to have them load immediately, as well as the parameter `f` to start on a given frame.
 
-Example: [https://drakeirving.github.io/ult-hitbox-viewer?char=Jigglypuff&move=Neutral Air]({{ '/?char=Jigglypuff&move=Neutral Air' | absolute_url }})
+Example: [https://drakeirving.github.io/ult-hitbox-viewer?char=Jigglypuff&move=Neutral Air&f=6]({{ '/?char=Jigglypuff&move=Neutral Air&f=6' | absolute_url }})
 
 > What do the different colors on the hitboxes mean?
 

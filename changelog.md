@@ -22,8 +22,11 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.3
+- Implemented URL query param for linking to a specific frame of a move (`f`)
+
 #### v1.2.2
-- Implemented URL query params for linking to a specific character and/or move
+- Implemented URL query params for linking to a specific character and/or move (`char`, `move`)
 
 #### v1.2.1
 - Added loop controls, cursor changes on hovering controls

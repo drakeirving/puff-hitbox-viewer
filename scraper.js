@@ -110,6 +110,14 @@ class Moveset extends Map {
     }
   }
 
+  setMoveFAF(move, faf){
+    this.get(move).faf = faf;
+  }
+
+  setMoveNotes(move, notes){
+    this.get(move)._notes = notes;
+  }
+
   setHitboxCustom(move, hitbox_id, param, value){
     this.get(move).hitboxes[hitbox_id][param] = value;
   }
@@ -120,14 +128,6 @@ class Moveset extends Map {
 
   setHitboxNotes(move, hitbox_id, notes){
     setHitboxCustom(move, hitbox_id, "_notes", notes)
-  }
-
-  setMoveFAF(move, faf){
-    this.get(move).faf = faf;
-  }
-
-  setMoveNotes(move, notes){
-    this.get(move)._notes = notes;
   }
 
   stringify(){
