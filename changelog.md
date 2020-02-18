@@ -22,6 +22,9 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.4
+- Fixed various quirks causing app to not work on older versions of Safari (thanks apple)
+
 #### v1.2.3
 - Implemented URL query param for linking to a specific frame of a move (`f`)
 

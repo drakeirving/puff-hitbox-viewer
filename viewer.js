@@ -92,10 +92,14 @@ function getData(file){
 }
 
 function setupChar(){
-  [...moveSelect.children].forEach(x => {
-    if(x.value.length > 0){ moveSelect.removeChild(x); }
-  });
+  clearMoveSelect();
   populateMoveSelect();
+}
+
+function clearMoveSelect(){
+  while(moveSelect.children.length > 1){
+    moveSelect.removeChild(moveSelect.children[moveSelect.children.length-1]);
+  }
 }
 
 function populateMoveSelect(){
@@ -136,10 +140,11 @@ function setMove(moveName){
   }
 }
 
-function loadAVideo(src){ // if blob breaks some browsers then whoops
+function loadAVideo(src){
   fetch(src)
-  .then(data => data.blob()) // error handling?
+  .then(data => data.blob())
   .then(blob => {
+    blob = new Blob([blob], { type: "video/mp4" }); // NOTE: explicitly setting mime-type required for safari
     let url = URL.createObjectURL(blob);
     prepareClip(url);
   });
@@ -151,7 +156,6 @@ function prepareClip(url){
   frameCounter.value = 1;
   frameCounter.disabled = false;
   frameSlider.value = 1;
-
   updateTable();
 }
 
@@ -169,8 +173,16 @@ function setupControls(){
 
     updateActiveFrames();
     updateMoveNotes();
-  });
 
+    // NOTE: required to prompt playback for safari on ipad in order to load media
+    setTimeout(() => {
+      player.play();
+      player.pause();
+    }, 50);
+  });
+  player.addEventListener("loadeddata", event => {
+    player.pause();
+  });
   player.addEventListener("canplaythrough", event => {
     if(initialFrame > 1){ // if `frame` query param is prepared
       setPlayerTime((initialFrame - 1) * STEP + EPS/2);
@@ -371,6 +383,7 @@ function setupControls(){
 
   function updateFrame(){
     let frame = Math.floor((player.currentTime + EPS) / STEP) + 1;
+    if(frame < 1){ frame = 1; }
     currentFrame = frame;
     frameCounter.value = frame;
     frameSlider.value = frame;
