@@ -75,7 +75,7 @@ function setCharacter(char){
 
 function getData(file){
   return fetch(file)
-    .then(data => data.text())
+    .then(res => res.text())
     .then(str => {
       moveset = parse(str);
       setupChar();
@@ -111,7 +111,8 @@ function populateMoveSelect(){
   });
 
   moveSelect.addEventListener("change", event => {
-    setMove(event.target.value);
+    // pass in blob url if clip has been previously loaded
+    setMove(event.target.value, event.target.selectedOptions[0].dataset.url);
   })
 
   moveSelect.selectedIndex = 0;
@@ -122,7 +123,7 @@ function populateMoveSelect(){
   }
 }
 
-function setMove(moveName){
+function setMove(moveName, url){
   if(moveset.has(moveName)){ // check script names
     _setMove(moveName);
   }else{
@@ -136,16 +137,23 @@ function setMove(moveName){
   function _setMove(move){
     currentMove = moveset.get(move);
     moveSelect.value = move;
-    loadAVideo(`./data/${currentChar}/video/mp4/${currentMove.niceName}.mp4`);
+    if(url){ // if blob url was passed, skip fetch
+      prepareClip(url);
+    }else{
+      loadAVideo(`./data/${currentChar}/video/mp4/${currentMove.niceName}.mp4`);
+    }
   }
 }
 
 function loadAVideo(src){
   fetch(src)
-  .then(data => data.blob())
+  .then(res => res.blob())
   .then(blob => {
-    blob = new Blob([blob], { type: "video/mp4" }); // NOTE: explicitly setting mime-type required for safari
+    if(blob.type == ""){ // NOTE: explicitly setting mime-type required for safari, it drops blob's type
+      blob = new Blob([blob], { type: "video/mp4" });
+    }
     let url = URL.createObjectURL(blob);
+    moveSelect.selectedOptions[0].dataset.url = url;
     prepareClip(url);
   });
 }
@@ -174,15 +182,19 @@ function setupControls(){
     updateActiveFrames();
     updateMoveNotes();
 
-    // NOTE: required to prompt playback for safari on ipad in order to load media
+    // NOTE: required to prompt playback for mobile safari in order to load media
+    // NOTE: muted and playsinline attrs: https://webkit.org/blog/6784/new-video-policies-for-ios/
     setTimeout(() => {
-      player.play();
-      player.pause();
-    }, 50);
+      if(player.readyState == 1){ // if stuck on HAVE_METADATA
+        player.play()
+        .then(() => {
+          player.pause();
+          setPlayerTime(0);
+        });
+      }
+    }, 100);
   });
-  player.addEventListener("loadeddata", event => {
-    player.pause();
-  });
+
   player.addEventListener("canplaythrough", event => {
     if(initialFrame > 1){ // if `frame` query param is prepared
       setPlayerTime((initialFrame - 1) * STEP + EPS/2);

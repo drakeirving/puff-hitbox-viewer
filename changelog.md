@@ -22,6 +22,9 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.5
+- More Safari quirks
+
 #### v1.2.4
 - Fixed various quirks causing app to not work on older versions of Safari (thanks apple)
 
