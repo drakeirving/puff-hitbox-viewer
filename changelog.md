@@ -22,6 +22,9 @@ title: Changelog
 
 {% endif %}
 
+#### v1.2.6
+- Piranha Plant updated animations (hurtboxes, timings)
+
 #### v1.2.5
 - More Safari quirks
 
