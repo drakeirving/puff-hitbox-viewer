@@ -22,6 +22,9 @@ title: Changelog
 
 {% endif %}
 
+#### v1.3.0
+- Added Isabelle!
+
 #### v1.2.6
 - Piranha Plant updated animations (hurtboxes, timings)
 

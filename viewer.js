@@ -1,4 +1,5 @@
 const CHARACTERS = [
+  "Isabelle",
   "Jigglypuff",
   "Piranha Plant"
 ];
